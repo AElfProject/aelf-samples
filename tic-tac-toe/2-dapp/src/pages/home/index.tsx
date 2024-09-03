@@ -141,7 +141,7 @@ const HomePage = ({ provider, currentWalletAddress }: PageProps) => {
             !loading &&
             !winner && (
               <div>
-                <div className="tic-tac-head">
+                <div className="tic-tac-toe-head">
                   <div className={turnType === "X" ? "active" : ""}>
                     <IconX />
                   </div>
