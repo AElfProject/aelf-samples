@@ -135,7 +135,7 @@ const HomePage = ({ provider, currentWalletAddress }: PageProps) => {
                 <IconX />
                 <IconO />
               </div>
-              <Button onClick={startGame}>Get Started The Game</Button>
+              <Button onClick={startGame}>Start the Game</Button>
             </div>
           ) : (
             !loading &&
