@@ -1,4 +1,4 @@
-# Build a Voting dApp (Frontend) 
+# Build a Allowance dApp (Frontend) 
 
 ## Getting Started
 
@@ -30,7 +30,7 @@ npm install
 
 Now that you're set up, you're ready to start the quest! Follow the steps as outlined in the campaign. Each step contains detailed instructions to guide you through the process
 
-## Preview of Voting dApp
+## Preview of Allowance dApp
 
 ![image](assets/Developer_Allowance_Landing_Page.png)
 
