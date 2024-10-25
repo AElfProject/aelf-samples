@@ -32,5 +32,5 @@ Now that you're set up, you're ready to start the quest! Follow the steps as out
 
 ## Preview of Voting dApp
 
-![image](assets/Developer_Allowance_Landing_Page.png.png)
+![image](assets/Developer_Allowance_Landing_Page.png)
 
