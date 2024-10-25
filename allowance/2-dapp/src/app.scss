@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-bg-color: #0d0c22; /* Dark background color */
+  --secondary-bg-color: #0d0c22; /* Slightly lighter for card backgrounds */
+  --primary-text-color: #333333; /* Light text color */
+  --secondary-text-color: #a9a9a9; /* Secondary text for less important info */
+  --accent-color: #4ecca3; /* Accent color for buttons or interactive elements */
+  --app-primary: #1370DD;
+  --app-dark-color: #333646;
+  --toastify-color-success: #1370DD !important;
+  --app-font: "Poppins", sans-serif;
+}
+
+html,
+body {
+  min-height: 100vh;
+  background-color: var(--primary-bg-color); /* Full body background color */
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: white;
+  color: var(--primary-text-color);
+  font-family: var(--app-font);
+  display: flex;
+  flex-direction: column;
+}
+body::-webkit-scrollbar{
+  display: none;
+}
+
+button {
+  border: none;
+  color: white;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--app-primary);
+  box-shadow: 0px 1px 5px 2px #1371dd28;
+  cursor: pointer;
+  transition: all 0.25s;
+  border-radius: 7px;
+
+  &:disabled{
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+button:active {
+  opacity: 0.8;
+}
+
+button.outline {
+  border: 1px solid var(--app-dark-color);
+  color: var(--primary-text-color);
+  background-color: transparent;
+}
+
+button.outline:hover {
+  border-color: var(--app-primary);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: auto;
+  padding: 15px;
+}
+
+.app-layout{
+  width: 100vw;
+  padding-top: 70px;
+}

@@ -1,0 +1,297 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  .allowance-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 25px 15px 100px;
+
+    h1 {
+      font-size: 38px;
+      color: var(--app-primary);
+      width: fit-content;
+      margin: 10px auto 30px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1px solid #1371dd3f;
+      box-shadow: 0 0 10px 5px #1371dd0c;
+    }
+
+    .allowance-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #1371dd2d;
+      padding: 10px 10px 10px 20px;
+      background-color: #1371dd15;
+      border-radius: 10px 10px;
+      margin-top: 20px;
+      h2 {
+        font-weight: 700;
+        color: var(--app-primary);
+      }
+      .button-wrapper {
+        display: flex;
+        gap: 10px;
+
+        button {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+        }
+      }
+    }
+
+    .allowance-wrapper {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px 20px;
+      padding: 20px 0;
+    }
+    .bordered-container {
+      display: flex;
+      min-height: 250px;
+      width: 100%;
+      border: 1px solid #1371dd2d;
+      border-radius: 15px;
+      margin-top: 20px;
+      padding: 20px;
+
+      &.no-wallet {
+        align-items: center;
+        justify-content: center;
+      }
+
+      h3 {
+        font-size: 22px;
+        text-decoration-line: underline;
+      }
+      strong {
+        font-size: 18px;
+        font-weight: 500;
+        color: #0a396e86;
+      }
+    }
+    .data-table-container {
+      width: 100%;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 15px;
+      border: 1px solid #1371dd3d;
+      box-shadow: 0 0 10px 5px #1371dd0c;
+
+      h2 {
+        font-size: 25px;
+        margin-bottom: 15px;
+        color: var(--app-primary);
+      }
+
+      .table-head,
+      .table-body {
+        display: flex;
+        align-items: center;
+        padding: 15px 25px;
+        gap: 20px;
+        border-radius: 10px 10px 0 0;
+        border: 1px solid #1371dd3d;
+        border-bottom: none;
+        background-color: #1371dd10;
+
+        p {
+          min-width: 150px;
+          font-size: 14px;
+          color: var(--app-primary);
+
+          &.address {
+            min-width: 450px;
+          }
+          &.allowance {
+            min-width: 70px;
+            text-align: center;
+            font-weight: 600;
+            color: #1371dd !important;
+            background-color: #1371dd20;
+            padding: 10px;
+            border-radius: 30px;
+          }
+          &.date {
+            width: 200px;
+          }
+          &.action {
+            width: 250px;
+          }
+
+          button {
+            padding: 7px 20px;
+            border-radius: 20px;
+            background-color: white;
+            color: var(--app-primary);
+            border: 1px solid var(--app-primary);
+          }
+        }
+      }
+      .table-body {
+        flex-direction: column;
+        align-items: flex-start;
+        border-bottom: 1px solid #1371dd3d;
+        border-radius: 0 0 10px 10px;
+        padding: 0;
+        gap: 0;
+        background-color: white;
+
+        .table-data-row {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          padding: 15px 25px;
+          border-bottom: 1px solid #1371dd3d;
+          min-height: 70px;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          p {
+            color: #acacac;
+          }
+
+          button.edit {
+            margin-left: 50px;
+          }
+        }
+      }
+
+      &.child {
+        max-width: 600px;
+        margin: 30px auto;
+
+        .spend-funds-form {
+          h2 {
+            text-align: center;
+            margin-top: 20px;
+          }
+          .allowance-text {
+            text-align: center;
+            position: relative;
+
+            &::before,
+            &::after {
+              content: "";
+              width: 30%;
+              height: 1px;
+              background: #1371dd3d;
+              position: absolute;
+              top: 50%;
+            }
+            &::before {
+              left: 0;
+            }
+            &::after {
+              right: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .no-child-data {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      padding: 20px;
+      strong {
+        font-weight: 500;
+        color: #0a396e86;
+      }
+    }
+  }
+}
+
+.modal-form {
+  margin: 30px 0;
+  .input-group {
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+      color: var(--app-primary);
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 1em;
+    }
+    input {
+      width: 100%;
+      padding: 0.5em;
+      padding-left: 15px;
+      border: 1px solid #1371dd6c;
+      border-radius: 7px;
+      font-size: 16px;
+      line-height: 1.5;
+      outline: none;
+      background-color: transparent;
+      color: var(--app-dark-color);
+      transition: all 0.3s ease;
+      font-family: var(--app-font);
+
+      &:disabled {
+        background-color: rgba(255, 255, 255, 0.116) !important;
+        border-color: rgba(255, 255, 255, 0.288) !important;
+      }
+
+      &:focus {
+        border-color: var(--app-primary);
+        box-shadow: 0 0 3px 2px #646cff30;
+      }
+
+      &::placeholder {
+        color: #888;
+      }
+
+      &[aria-invalid="true"] {
+        border: 1px solid red;
+        box-shadow: 0 0 3px 2px rgba(255, 0, 0, 0.15);
+      }
+    }
+  }
+  .select-container {
+    margin-top: 1em;
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+      color: var(--app-primary);
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+  .error-message {
+    color: red;
+    font-size: 14px;
+    padding-left: 2px;
+  }
+  .button-container {
+    margin-top: 40px;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+// overrides styles of the react-select dropdown field
+
+.css-13cymwt-control {
+  border: 1px solid #1371dd6c !important;
+  border-radius: 7px !important;
+  min-height: 42px !important;
+  box-shadow: none !important;
+}
+.css-t3ipsp-control {
+  border: 1px solid #1371dd !important;
+  border-radius: 7px !important;
+  min-height: 42px !important;
+  border-color: var(--app-primary);
+  box-shadow: 0 0 3px 2px #646cff30;
+}
