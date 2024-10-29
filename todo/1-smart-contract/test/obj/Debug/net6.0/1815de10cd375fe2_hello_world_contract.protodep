@@ -1,0 +1,8 @@
+obj/Debug/net6.0/Protobuf/stub/HelloWorldContract.c.cs \
+obj/Debug/net6.0/Protobuf/stub/HelloWorldContract.cs: /Users/apple/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/descriptor.proto\
+ /Users/apple/.nuget/packages/aelf.tools/1.0.2/build/native/include/aelf/options.proto\
+ /Users/apple/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/empty.proto\
+ /Users/apple/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/wrappers.proto\
+ /Users/apple/.nuget/packages/aelf.tools/1.0.2/build/native/include/aelf/core.proto\
+ Protobuf/reference/acs12.proto\
+ Protobuf/stub/hello_world_contract.proto

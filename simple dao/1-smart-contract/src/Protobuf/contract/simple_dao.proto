@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "Protobuf/reference/acs12.proto";
+import public "google/protobuf/timestamp.proto";
+
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.SimpleDAO";
+
+service SimpleDAO {
+  // The name of the state class the smart contract is going to use to access
+  // blockchain state
+  option (aelf.csharp_state) = "AElf.Contracts.SimpleDAO.SimpleDAOState";
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+
+  // Actions -> Methods that change state of smart contract
+  // This method sets up the initial state of our StackUpDAO smart contract
+  rpc Initialize(InitializeInput) returns (google.protobuf.Empty);
+
+  // This method allows a user to create a proposal for other users to vote on.
+  // The method takes in a "CreateProposalInput" message which comprises of an
+  // address, a title, description and a vote threshold (i.e how many votes
+  // required for the proposal to pass)
+  rpc CreateProposal(CreateProposalInput) returns (google.protobuf.Empty);
+
+  // This method allows a user to vote on proposals towards a specific proposal.
+  // This method takes in a "VoteInput" message which takes in the address of
+  // the voter, specific proposal and a boolean which represents their vote
+  rpc Vote(VoteInput) returns (google.protobuf.Empty);
+
+  rpc Withdraw(WithdrawInput) returns (google.protobuf.Empty);
+
+  // Views -> Methods that does not change state of smart contract
+  // This method allows a user to fetch a list of proposals that had been
+  // created by members of the DAO
+  rpc GetAllProposals(google.protobuf.Empty) returns (ProposalList) {
+    option (aelf.is_view) = true;
+  }
+
+  // aelf requires explicit getter methods to access the state value, 
+  // so we provide these three getter methods for accessing the state
+  // This method allows a user to fetch a proposal by proposalId
+  rpc GetProposal (google.protobuf.StringValue) returns (Proposal) {
+    option (aelf.is_view) = true;
+  }
+
+  // get the token symbol for this DAO
+  rpc GetTokenSymbol (google.protobuf.Empty) returns (google.protobuf.StringValue) {
+    option (aelf.is_view) = true;
+  }
+
+  rpc HasVoted (HasVotedInput) returns (google.protobuf.BoolValue) {
+    option (aelf.is_view) = true;
+  }
+}
+
+message Proposal {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string status = 4;  // e.g., "IN PROGRESS", "PASSED", "DENIED"
+  aelf.Address proposer = 5;
+  google.protobuf.Timestamp start_timestamp = 6;
+  google.protobuf.Timestamp end_timestamp = 7;
+  ProposalResult result = 8;
+}
+
+message ProposalResult {
+  int64 approve_counts = 1;
+  int64 reject_counts = 2;
+  int64 abstain_counts = 3;
+}
+
+message CreateProposalInput {
+  string title = 1;
+  string description = 2;
+  google.protobuf.Timestamp start_timestamp = 3;
+  google.protobuf.Timestamp end_timestamp = 4;
+}
+
+enum VoteOption {
+  APPROVED = 0;
+  REJECTED = 1;
+  ABSTAINED = 2;
+}
+
+message VoteInput {
+  string proposalId = 1;
+  VoteOption vote = 2;
+  int64 amount = 3;
+}
+
+message InitializeInput {
+  string tokenSymbol = 1;
+}
+
+message WithdrawInput {
+  string proposalId = 1;
+}
+
+message ProposalList {
+  repeated Proposal proposals = 1;
+}
+
+message HasVotedInput {
+  string proposalId = 1;
+  aelf.Address address = 2;
+}

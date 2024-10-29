@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SinglePoolStaking")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0474c4f221725626fabb225b497b2a36647ce458")]
 [assembly: System.Reflection.AssemblyProductAttribute("SinglePoolStaking")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SinglePoolStaking")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
