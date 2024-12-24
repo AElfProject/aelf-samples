@@ -1,0 +1,155 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  .marketplace-info {
+    width: 100%;
+    max-width: 1200px;
+    background: #242634
+      url("https://solostakers.com/wp-content/uploads/2024/01/What-is-NFT-Staking-and-How-to-Earn-Passive-Income-From-NFTs_.jpg")
+      no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    margin: 0 auto;
+    padding: 30px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    min-height: 400px;
+    border-radius: 20px;
+    margin-top: 40px !important;
+  }
+
+  .marketplace-info,
+  .nft-collection-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 15px 100px;
+
+    h1,
+    h3 {
+      color: white;
+    }
+
+    .nft-collection-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1371dd2d;
+      padding-bottom: 10px;
+      h2 {
+        font-weight: 700;
+      }
+      .button-wrapper {
+        display: flex;
+        gap: 20px;
+        button {
+          border-color: var(--app-purple);
+          background-color: var(--app-purple);
+
+          &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+
+    .nft-collection {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px 20px;
+      padding: 20px;
+
+      .around {
+        justify-content: space-around;
+      }
+      .nft-card {
+        position: relative;
+        padding: 10px;
+        width: 300px;
+        background-color: white;
+        border-radius: 20px;
+        border: 1px solid #1371dd2d;
+        box-shadow: 0px 1px 5px 2px #1371dd27;
+        img {
+          height: 300px;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 12px;
+          cursor: pointer;
+          margin-bottom: 10px;
+        }
+        .nft-info {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 40px;
+          position: absolute;
+          top: 270px;
+          left: 10px;
+          width: calc(100% - 20px);
+          backdrop-filter: blur(5px);
+          background-color: #fff1;
+          border-radius: 0 0 12px 12px;
+
+          p {
+            color: white;
+          }
+        }
+        .nft-info-row {
+          margin-top: 10px;
+          span {
+            word-break: break-all;
+            &:first-child {
+              opacity: 0.5;
+              margin-right: 10px;
+            }
+          }
+        }
+        p {
+          font-weight: 600;
+        }
+        .buy-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px;
+          background-color: #1371dd15;
+          margin-top: 5px;
+          border-radius: 10px;
+          margin-top: 20px;
+          button {
+            width: 100%;
+            font-size: 13px;
+            font-weight: 600;
+            background-color: var(--app-purple);
+            color: white;
+            border-radius: 7px;
+          }
+        }
+      }
+    }
+    .bordered-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 250px;
+      width: 100%;
+      border: 1px solid #1371dd2d;
+      margin-top: 30px;
+      border-radius: 15px;
+      strong {
+        font-size: 18px;
+        color: #0a396e86;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 2.8rem; /* Larger for main heading */
+    font-weight: 700; /* Bolder for importance */
+    margin-bottom: 1rem;
+  }
+}
