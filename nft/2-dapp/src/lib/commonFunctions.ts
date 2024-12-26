@@ -1,3 +1,5 @@
+import { IContract } from "@/lib/types";
+
 interface Nft {
   nftSymbol: string;
   balance?: number; // Adding an optional balance property for clarity
