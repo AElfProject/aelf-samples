@@ -17,7 +17,7 @@ import "./transfer-nft.scss";
 import { Button } from "@/components/ui/button";
 import { NFT_IMAGES } from "@/lib/constant";
 import useNFTSmartContract from "@/hooks/useNFTSmartContract";
-import { delay, removeNotification } from "@/lib/utils";
+import { delay, handleError, removeNotification } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
