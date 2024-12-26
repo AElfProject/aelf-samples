@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Frontend of our [NFT dApp](https://docs.aelf.dev/quick-start/developers/nft-dapp/#step-4---interact-with-deployed-multi-token-smart-contract).
+Frontend of our [NFT dApp](https://docs.aelf.com/quick-start/developers/nft-dapp/#step-4---interact-with-deployed-multi-token-smart-contract).
 
 ## Pre-requisites
 
@@ -20,7 +20,7 @@ git clone https://github.com/AElfProject/aelf-samples.git
 
 2. Navigate to the project directory:
 ```bash
-cd aelf-samples/nft-dapp-tutorials
+cd aelf-samples/nft/2-dapp
 ```
 
 3. Install the necessary dependencies & libraries

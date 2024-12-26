@@ -1,5 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
-import { toast } from "react-toastify";
+import { Id, toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -19,3 +19,20 @@ export const CustomToast = ({ title, message }: any) => (
     <p>{message}</p>
   </div>
 );
+
+export const handleError = (loadingId: Id, error: unknown) => {
+  if (error instanceof Error) {
+    toast.update(loadingId, {
+      render: error.message,
+      type: "error",
+      isLoading: false,
+    });
+  } else {
+    toast.update(loadingId, {
+      render: "An unexpected error occurred.",
+      type: "error",
+      isLoading: false,
+    });
+  }
+  removeNotification(loadingId);
+};
