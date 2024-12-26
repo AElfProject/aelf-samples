@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "Protobuf/reference/acs12.proto";
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.NftSale";
+
+service NftSale {
+  // The name of the state class the smart contract is going to use to access blockchain state
+  option (aelf.csharp_state) = "AElf.Contracts.NftSale.NftSaleState";
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+
+  rpc Initialize (NftPrice) returns (google.protobuf.Empty) {
+  }
+
+  rpc Purchase (PurchaseInput) returns (google.protobuf.Empty) {
+  }
+
+  rpc SetPriceAndSymbol (NftPrice) returns (google.protobuf.Empty) {
+  }
+
+  rpc GetPrice (google.protobuf.Empty) returns (Price) {
+    option (aelf.is_view) = true;
+  }
+
+  rpc GetSymbol (google.protobuf.Empty) returns (NftSymbol) {
+    option (aelf.is_view) = true;
+  }
+
+  rpc Withdraw (google.protobuf.Int64Value) returns (google.protobuf.Empty) {
+  }
+
+  rpc Deposit (DepositeInput) returns (google.protobuf.Empty) {
+  }
+
+  rpc TransferOwnership (aelf.Address) returns (google.protobuf.Empty) {
+  }
+
+  rpc GetContractBalance (GetContractBalanceInput) returns (google.protobuf.Int64Value) {
+    option (aelf.is_view) = true;
+  }
+
+  rpc GetOwner (google.protobuf.Empty) returns (google.protobuf.StringValue) {
+    option (aelf.is_view) = true;
+  }
+}
+
+message DepositeInput{
+  string symbol = 1; // nft
+  int64 amount = 2; // token amount
+}
+
+message Price {
+  string symbol = 1; // token type
+  int64 amount = 2; // token price
+}
+
+message NftSymbol {
+  string symbol = 1;
+}
+
+message NftPrice{
+  // // The token symbol price
+  Price price = 1;
+  // The token symbol 
+  string symbol = 2;
+}
+
+message PurchaseInput {
+  // The token symbol to transfer.
+  string symbol = 2;
+  // The amount to to transfer.
+  int64 amount = 3;
+  // The memo.
+  string memo = 4;
+  // Transaction information
+  Price price = 5;
+}
+
+message SaleNft {
+  option (aelf.is_event) = true;
+  // The destination address of the transferred token.
+  aelf.Address to = 2 [(aelf.is_indexed) = true];
+  // The symbol of the transferred token.
+  string symbol = 3 [(aelf.is_indexed) = true];
+  // The amount of the transferred token.
+  int64 amount = 4;
+  // The memo.
+  string memo = 5;
+}
+
+message GetContractBalanceInput{
+  aelf.Address address = 1;
+}
+
+// An event that will be emitted from contract method call when Withdraw is called.
+message WithdrawEvent {
+  option (aelf.is_event) = true;
+  int64 amount = 1;
+  aelf.Address from = 2;
+  aelf.Address to = 3;
+}
+
+// An event that will be emitted from contract method call when Deposit is called.
+message DepositEvent {
+  option (aelf.is_event) = true;
+  int64 amount = 1;
+  string symbol = 2;
+  aelf.Address from = 3;
+  aelf.Address to = 4;
+}

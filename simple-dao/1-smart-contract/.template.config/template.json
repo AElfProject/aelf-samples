@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "AElf",
+  "classifications": [
+    "AElf/SmartContract"
+  ],
+  "identity": "AElf.Contract.SimpleDAO.Template",
+  "name": "AElf Contract SimpleDAO Template",
+  "shortName": "aelf-simple-dao",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "SimpleDAO",
+  "symbols": {
+    "NamespacePath": {
+      "type": "parameter",
+      "replaces": "AElf.Contracts.SimpleDAO"
+    }
+  }
+}

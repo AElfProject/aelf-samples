@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "AElf",
+  "classifications": [
+    "AElf/SmartContract"
+  ],
+  "identity": "AElf.Contract.BuildersDAO.Template",
+  "name": "AElf Contract BuildersDAO Template",
+  "shortName": "aelf-dao",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "BuildersDAO",
+  "symbols": {
+    "NamespacePath": {
+      "type": "parameter",
+      "replaces": "AElf.Contracts.BuildersDAO"
+    }
+  }
+} 

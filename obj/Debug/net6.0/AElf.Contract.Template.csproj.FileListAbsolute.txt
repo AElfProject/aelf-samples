@@ -1,0 +1,13 @@
+/Users/apple/Desktop/Aelf Projects/aelf-samples/bin/Debug/net6.0/AElf.Contract.Template.deps.json
+/Users/apple/Desktop/Aelf Projects/aelf-samples/bin/Debug/net6.0/AElf.Contract.Template.dll
+/Users/apple/Desktop/Aelf Projects/aelf-samples/bin/Debug/net6.0/AElf.Contract.Template.pdb
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/AElf.Contract.Template.csproj.AssemblyReference.cache
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/AElf.Contract.Template.GeneratedMSBuildEditorConfig.editorconfig
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/AElf.Contract.Template.AssemblyInfoInputs.cache
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/AElf.Contract.Template.AssemblyInfo.cs
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/AElf.Contract.Template.csproj.CoreCompileInputs.cache
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/AElf.Contract.Template.sourcelink.json
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/AElf.Contract.Template.dll
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/refint/AElf.Contract.Template.dll
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/AElf.Contract.Template.pdb
+/Users/apple/Desktop/Aelf Projects/aelf-samples/obj/Debug/net6.0/ref/AElf.Contract.Template.dll
