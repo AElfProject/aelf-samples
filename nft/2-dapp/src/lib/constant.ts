@@ -10,5 +10,3 @@ export const NFT_IMAGES = [
     "assets/nft-images/nft-9.avif",
     "assets/nft-images/nft-10.jpg",
 ]
-
-export const eForestNftHoldApi = "https://test.eforest.finance/api/app/nft/nft-infos-user-profile/myhold"
