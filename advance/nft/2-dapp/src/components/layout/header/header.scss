@@ -1,0 +1,31 @@
+.app-navbar {
+  width: 100vw;
+  border-bottom: 1px solid #1371dd2d;
+  position: fixed;
+  left: 0;
+  background-color: white;
+  z-index: 1;
+  top: 0;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo-image{
+      cursor: pointer;
+    }
+    
+    .right-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      .profile-button {
+        padding: 7px 10px;
+        svg {
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
+  }
+}
