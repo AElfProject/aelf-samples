@@ -14,7 +14,7 @@ import Bignumber from 'bignumber.js';
 import PlayButton from '@/app/dice/components/PlayButton';
 
 // Global variable to store player information
-let playerInfoGlobal: any = {};
+let playerInfoGlobal = {};
 
 /**
  * Main component for the Dice Game.

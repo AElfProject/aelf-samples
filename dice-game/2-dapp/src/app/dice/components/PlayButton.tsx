@@ -5,7 +5,7 @@ export default function PlayButton({
   disabled = false,
   children,
 }: {
-  onClick?: any;
+  onClick?: () => void;
   disabled?: boolean;
   children: React.ReactNode;
 }) {
