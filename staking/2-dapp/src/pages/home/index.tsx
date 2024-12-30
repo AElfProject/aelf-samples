@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { IPortkeyProvider } from "@portkey/provider-types";
-import { toast } from "react-toastify";
+import { Id, toast } from "react-toastify";
 import axios from "axios";
 
 import "./home.scss";
@@ -83,7 +83,7 @@ const HomePage = ({ provider, currentWalletAddress }: PageProps) => {
     setIsModalOpen(false);
   };
 
-  // Step S - fetch Fungible Token data
+  // Step R - fetch Fungible Token data
   const fetchTokenData = async () => {};
 
   // useEffect hook to fetch token data periodically when the wallet address is available and the form is not loading
@@ -143,22 +143,22 @@ const HomePage = ({ provider, currentWalletAddress }: PageProps) => {
     handleAmountError(amount);
   }, [amount]);
 
-  // Step T - Function to transfer TOKEN to the Staking Contract
+  // Step S - Function to transfer TOKEN to the Staking Contract
   const transferTokenToStakingContract = async (amount: string) => {};
 
-  // Step U - Function to handle staking of the token
+  // Step T - Function to handle staking of the token
   const handleStaking = async () => {};
 
-  // Step V - Function to fetch deposit data for the current wallet address
+  // Step U - Function to fetch deposit data for the current wallet address
   const fetchDepositData = async () => {};
 
-  // Step W - Function to fetch the total staked amount from the staking contract
+  // Step V - Function to fetch the total staked amount from the staking contract
   const fetchTotalStakedAmount = async () => {};
 
-  // Step X - Function to withdraw staked tokens based on a deposit ID
+  // Step W - Function to withdraw staked tokens based on a deposit ID
   const withdrawStake = async (depositId: string) => {};
 
-  // Step Y - Function to perform an emergency withdrawal of staked tokens based on a deposit ID
+  // Step X - Function to perform an emergency withdrawal of staked tokens based on a deposit ID
   const emergencyWithdrawStake = async (depositId: string) => {};
 
   return (
