@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "Protobuf/reference/acs12.proto";
+import "Protobuf/message/request_interface.proto";
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.DiceMaster";
+
+service DiceMaster {
+  // The name of the state class the smart contract is going to use to access blockchain state
+  option (aelf.csharp_state) = "AElf.Contracts.DiceMaster.DiceMasterState";
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+  option (aelf.base) = "Protobuf/message/request_interface.proto";
+
+  rpc Initialize (google.protobuf.Empty) returns (google.protobuf.Empty) {
+  }
+
+  rpc Play (google.protobuf.Int64Value) returns (google.protobuf.Empty) {
+  }
+
+  rpc Withdraw (google.protobuf.Int64Value) returns (google.protobuf.Empty) {
+  }
+
+  rpc Deposit (google.protobuf.Int64Value) returns (google.protobuf.Empty) {
+  }
+  
+  rpc TransferOwnership (aelf.Address) returns (google.protobuf.Empty) {
+  }
+
+  rpc SetSubscriptionId (google.protobuf.Int64Value) returns (google.protobuf.Empty) {
+  }
+
+  rpc SetOracleNodeId (google.protobuf.Int32Value) returns (google.protobuf.Empty) {
+  }
+
+  rpc GetPlayAmountLimit (google.protobuf.Empty) returns (PlayAmountLimitMessage) {
+    option (aelf.is_view) = true;
+  }
+
+  rpc GetContractBalance (google.protobuf.Empty) returns (google.protobuf.Int64Value) {
+    option (aelf.is_view) = true;
+  }
+  
+  rpc GetOwner (google.protobuf.Empty) returns (google.protobuf.StringValue) {
+    option (aelf.is_view) = true;
+  }
+
+  rpc GetSubscriptionId (google.protobuf.Empty) returns (google.protobuf.Int64Value) {
+    option (aelf.is_view) = true;
+  }
+
+  rpc GetOracleNodeId (google.protobuf.Empty) returns (google.protobuf.Int32Value) {
+    option (aelf.is_view) = true;
+  }
+
+  rpc GetPlayerInfo (aelf.Address) returns (PlayerInfo) {
+    option (aelf.is_view) = true;
+  }
+}
+
+// An event that will be emitted from contract method call when Play is called.
+message PlayOutcomeEvent {
+  option (aelf.is_event) = true;
+  int64 amount = 1;
+  int64 won = 2;
+  aelf.Address from = 3;
+}
+
+// An event that will be emitted from contract method call when Withdraw is called.
+message WithdrawEvent {
+  option (aelf.is_event) = true;
+  int64 amount = 1;
+  aelf.Address from = 2;
+  aelf.Address to = 3;
+}
+
+// An event that will be emitted from contract method call when Deposit is called.
+message DepositEvent {
+  option (aelf.is_event) = true;
+  int64 amount = 1;
+  aelf.Address from = 2;
+  aelf.Address to = 3;
+}
+
+// The message containing the play amount limits
+message PlayAmountLimitMessage {
+  int64 minimumAmount = 1;
+  int64 maximumAmount = 2;
+}
+
+message PlayedRecord {
+  aelf.Address address = 1;
+  int64 blockNumber = 2;
+}
+
+message PlayerInfo {
+  aelf.Address address = 1;
+  int64 dice1 = 2;
+  int64 dice2 = 3;
+  bool win = 4;
+  int64 amount = 5;
+  bool pending = 6;
+  int64 blockNumber = 7;
+}

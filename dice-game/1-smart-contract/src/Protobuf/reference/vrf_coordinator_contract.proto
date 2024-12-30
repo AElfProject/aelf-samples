@@ -1,0 +1,53 @@
+// the version of the language, use proto3 for contracts
+syntax = "proto3";
+
+package vrf;
+
+// some core imports for AElf chain types
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "Protobuf/reference/acs12.proto";
+import "Protobuf/reference/oracle_common_message.proto";
+import "Protobuf/reference/coordinator_contract.proto";
+
+// import for using the google.protobuf.* type.
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+// the name of the C# namespace in which the contract code will be,
+// generated code will also be in this namespace.
+option csharp_namespace = "AetherLink.Contracts.VRF.Coordinator";
+
+// the contract definition: a gRPC service definition.
+service VrfCoordinatorContract {
+
+  // the full name of the C# class that will contain the state (here <namespace>.<state-class-name> format).
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+  option (aelf.base) = "Protobuf/reference/coordinator_contract.proto";
+  option (aelf.csharp_state) = "AetherLink.Contracts.VRF.Coordinator.VrfCoordinatorContractState";
+
+  rpc SetConfig (Config) returns (google.protobuf.Empty) {}
+  rpc GetConfig (google.protobuf.Empty) returns (Config) { option (aelf.is_view) = true; }
+}
+
+message Config {
+  int64 request_timeout_seconds = 1;
+  int64 minimum_request_confirmations = 2;
+  int64 max_request_confirmations = 3;
+  int64 max_num_words = 4;
+}
+
+message SpecificData {
+  int64 block_number = 1;
+  int64 num_words = 2;              // amount of random values
+  aelf.Hash key_hash = 3;           // hash of the public key
+  int64 request_confirmations = 4;  // amount of blocks to wait
+  aelf.Hash pre_seed = 5;
+}
+
+// log event
+message ConfigSet {
+  option (aelf.is_event) = true;
+  Config config = 1;
+}

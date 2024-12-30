@@ -1,0 +1,28 @@
+version: '1.0'
+
+services:
+  create-aelf-dapp.nginx:
+    container_name: create-aelf-dapp.nginx
+    image: nginx:1.27.1
+    ports:
+      - "3006:3006"
+    volumes:
+      - ./create-aelf-dapp.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - create-aelf-dapp_network
+    restart: unless-stopped
+
+  create-aelf-dapp.interface:
+    container_name: create-aelf-dapp.interface
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3005:3005"
+    networks:
+      - create-aelf-dapp_network
+    restart: unless-stopped
+
+networks:
+  create-aelf-dapp_network:
+    external: true
