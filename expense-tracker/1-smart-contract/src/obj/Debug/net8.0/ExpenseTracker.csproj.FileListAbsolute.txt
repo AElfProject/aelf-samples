@@ -1,0 +1,13 @@
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/bin/Debug/net8.0/ExpenseTracker.deps.json
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/bin/Debug/net8.0/ExpenseTracker.dll
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/bin/Debug/net8.0/ExpenseTracker.pdb
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ExpenseTracker.csproj.AssemblyReference.cache
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ExpenseTracker.GeneratedMSBuildEditorConfig.editorconfig
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ExpenseTracker.AssemblyInfoInputs.cache
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ExpenseTracker.AssemblyInfo.cs
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ExpenseTracker.csproj.CoreCompileInputs.cache
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ExpenseTracker.sourcelink.json
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ExpenseTracker.dll
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/refint/ExpenseTracker.dll
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ExpenseTracker.pdb
+/Users/apple/Desktop/Aelf Projects/aelf-samples/expense-tracker/1-smart-contract/src/obj/Debug/net8.0/ref/ExpenseTracker.dll
