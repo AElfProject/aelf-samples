@@ -7,7 +7,7 @@ A collection of templates smart contracts and dApps for the AElf blockchain plat
 Install the templates using the .NET CLI:
 
 ```bash
-dotnet new install AElf.Samples
+dotnet new install AElf.ContractTemplates
 ```
 
 ## Available Templates

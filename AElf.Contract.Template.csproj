@@ -2,7 +2,7 @@
     <Import Project="Version.props" />
     <PropertyGroup>
         <PackageType>Contract</PackageType>
-        <PackageId>AElf.Samples</PackageId>
+        <PackageId>AElf.ContractTemplates</PackageId>
         <Title>AElf Contract</Title>
         <Authors>AElf</Authors>
         <Description>Template smart contracts and dApps for AElf blockchain.</Description>

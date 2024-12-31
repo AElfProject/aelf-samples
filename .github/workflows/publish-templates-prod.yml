@@ -1,0 +1,60 @@
+on:
+  push:
+    tags:
+      - 'templates-v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIRECTORY: .
+    environment: prod
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Ensure the full history is fetched so we can check the commit history
+
+      - name: Verify tag is on master branch
+        id: verify_tag
+        run: |
+          # Get the commit SHA of the tag
+          TAG_COMMIT=$(git rev-list -n 1 $GITHUB_REF)
+          # Check if the commit exists on the master branch
+          if git merge-base --is-ancestor $TAG_COMMIT origin/master; then
+            echo "Tag commit is on master branch."
+            echo "IS_ON_MASTER=true" >> $GITHUB_ENV
+          else
+            echo "Tag commit is not on master branch."
+            echo "IS_ON_MASTER=false" >> $GITHUB_ENV
+          fi
+
+      - name: Stop if not on master
+        if: env.IS_ON_MASTER != 'true'
+        run: |
+          echo "This tag was not created from the master branch. Exiting."
+          exit 1
+
+      - name: Setup .NET
+        if: env.IS_ON_MASTER == 'true'
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.*'  # Change this to the .NET version you're using
+
+      - name: Read version from Version.props
+        if: env.IS_ON_MASTER == 'true'
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          version=$(grep -oP '<Version>\K[^<]+' Version.props)
+          echo "VERSION=$version" >> $GITHUB_ENV
+
+      - name: Pack
+        if: env.IS_ON_MASTER == 'true'
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: dotnet pack --configuration Release --output nupkgs /p:Version=$VERSION
+
+      - name: Publish NuGet packages
+        if: env.IS_ON_MASTER == 'true'
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          dotnet nuget push "nupkgs/*.nupkg" --api-key ${{ secrets.TEMPLATES_NUGET_API_KEY }} --source ${{ vars.TEMPLATES_NUGET_SOURCE_URL }}

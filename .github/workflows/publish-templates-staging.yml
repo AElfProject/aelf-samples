@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - release/templates/*
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIRECTORY: .
+    environment: staging
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.*'  # Change this to the .NET version you're using
+
+      - name: Read version from Version.props
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          version=$(grep -oP '<Version>\K[^<]+' Version.props)
+          echo "VERSION=$version-rc.${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+
+      - name: Pack
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: dotnet pack --configuration Release --output nupkgs /p:Version=$VERSION
+
+      - name: Publish NuGet packages
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          dotnet nuget push "nupkgs/*.nupkg" --api-key ${{ secrets.TEST_TEMPLATES_NUGET_API_KEY }} --source ${{ vars.TEST_TEMPLATES_NUGET_SOURCE_URL }}
