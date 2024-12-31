@@ -1,7 +1,0 @@
-obj/Debug/net6.0/Protobuf/reference/Acs12.c.cs \
-obj/Debug/net6.0/Protobuf/reference/Acs12.cs: /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/descriptor.proto\
- /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/aelf/options.proto\
- /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/empty.proto\
- /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/wrappers.proto\
- /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/aelf/core.proto\
- Protobuf/reference/acs12.proto

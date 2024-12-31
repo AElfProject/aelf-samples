@@ -4,8 +4,8 @@
   "classifications": [
     "AElf/SmartContract"
   ],
-  "identity": "AElf.Contract",
-  "name": "AElf Contract",
+  "identity": "AElf.Contract.HelloWorld.Template",
+  "name": "AElf Contract Hello World Template",
   "shortName": "aelf-hello-world",
   "tags": {
     "language": "C#",

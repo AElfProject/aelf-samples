@@ -1,7 +1,0 @@
-obj/Debug/net6.0/Protobuf/reference/TokenContract.c.cs \
-obj/Debug/net6.0/Protobuf/reference/TokenContract.cs: /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/aelf/core.proto\
- /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/descriptor.proto\
- /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/aelf/options.proto\
- /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/empty.proto\
- /root/.nuget/packages/aelf.tools/1.0.2/build/native/include/google/protobuf/wrappers.proto\
- Protobuf/reference/token_contract.proto
