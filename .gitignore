@@ -130,3 +130,9 @@ dist
 .pnp.*
 
 .DS_Store
+
+# Ignore bin and obj directories
+bin/
+obj/
+**/bin/
+**/obj/

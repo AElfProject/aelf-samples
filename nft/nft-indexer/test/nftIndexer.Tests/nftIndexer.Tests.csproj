@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>nftIndexer</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\nftIndexer\nftIndexer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AeFinder.App.TestBase" Version="1.4.0">
+            <ExcludeAssets>contentFiles</ExcludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+        <PackageReference Include="Moq" Version="4.20.70" />
+        <PackageReference Include="AElf.Types" Version="1.6.0" />
+        <PackageReference Include="xunit" Version="2.6.1" />
+        <PackageReference Include="xunit.extensibility.execution" Version="2.6.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+        <PackageReference Include="Shouldly" Version="4.2.1" />
+        <PackageReference Include="coverlet.collector" Version="6.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AElf.Client.Protobuf" Version="1.2.1">
+            <ExcludeAssets>all</ExcludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+</Project>

@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "AElf",
+  "classifications": [
+    "AElf/SmartContract"
+  ],
+  "identity": "AElf.Contract.TicTacToe.Template",
+  "name": "AElf Contract TicTacToe Template",
+  "shortName": "aelf-tictactoe",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "TicTacToe",
+  "symbols": {
+    "NamespacePath": {
+      "type": "parameter",
+      "replaces": "AElf.Contracts.TicTacToe"
+    }
+  }
+} 
