@@ -26,7 +26,7 @@ jobs:
 
       - name: Pack
         working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: dotnet pack --configuration Release --output nupkgs /p:Version=$VERSION
+        run: dotnet pack AElf.Contract.Template.csproj --configuration Release --output nupkgs /p:Version=$VERSION
 
       - name: Publish NuGet packages
         working-directory: ${{ env.WORKING_DIRECTORY }}
