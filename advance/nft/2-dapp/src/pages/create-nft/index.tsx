@@ -181,6 +181,9 @@ const CreateNftPage = ({
   // This function fetches the current height of the parent blockchain.
   const GetParentChainHeight = async () => {};
 
+  // step 4 - Fetch the merkle path by transaction Id
+  const getMerklePathByTxId = async () => {}
+
   // step 5 - Create a collection on the dAppChain
   const createCollectionOnSideChain = async () => {};
 
