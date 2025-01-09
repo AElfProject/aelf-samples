@@ -135,7 +135,7 @@ const HomePage = ({ provider, currentWalletAddress }: PageProps) => {
   // step 1 - Check If Contract is Initialized or not 
   const checkIsContractInitialized = async () => {};
 
-  // step 2 - Intitialize The Contract Very First Time
+  // step 2 - Initialize the smart contract
   const initializeContract = async () => {};
 
   // Check whether contract initialized or not

@@ -4,7 +4,7 @@ import { Id, toast } from "react-toastify";
 import * as z from "zod";
 import AElf from "aelf-sdk";
 import { Buffer } from "buffer";
-
+import { IWalletInfo } from "aelf-sdk/types/wallet";
 import Modal from "../modal";
 import {
   Form,
@@ -36,7 +36,7 @@ const formSchema = z.object({
 interface ITokenValidateResult {
   parentChainHeight: string | number;
   signedTx: string;
-  merklePath: { merklePathNodes: any };
+  merklePath: { merklePathNodes: { hash: string; isLeftChildNode: boolean }[] };
 }
 
 interface ITokenParams {
@@ -53,6 +53,8 @@ interface IProps {
   currentWalletAddress: string | undefined;
   provider: IPortkeyProvider | null;
 }
+
+interface IssueResult { data: { Logs: { Name: string; Address: string }[]; }; }
 
 const CreateTokenodal = ({
   isModalOpen,
@@ -83,8 +85,15 @@ const CreateTokenodal = ({
     "4e83df2aa7c8552a75961f9ab9f2f06e01e0dca0203e383da5468bbbe2915c97"
   );
 
-  // Step F - Configure Expense Form
-  const form = useForm<z.infer<typeof formSchema>>({});
+  // Step F - Configure TOKEN Create Form
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      tokenName: "$TOKEN",
+      symbol: "",
+      totalSupply: "",
+    },
+  });
 
   // Step G - Get CrossChain Contract
   const getCrossChainContract = async () => {};
@@ -103,11 +112,11 @@ const CreateTokenodal = ({
 
   // Step L - Validate Mainchain Token Create's Transaction
   const validateToken = async () => {};
-  
-  // Step M - Create a Token on SideChain.
+
+  // Step M - Create a Token on the dAppChain.
   const createTokenOnSideChain = async () => {};
 
-  // Step N - Issue Token on SideChain
+  // Step N - Issue Token on dAppChain
   const issueTokenOnSideChain = async () => {};
 
   // Step O - Transfer TOKEN to Staking Contract
