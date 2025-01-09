@@ -8,6 +8,7 @@ import { NFT_IMAGES } from "@/lib/constant";
 import { toast } from "react-toastify";
 import { CopyIcon } from "@/components/ui/icons";
 import { fetchUserNftData } from "@/lib/commonFunctions";
+import { IContract } from "@/lib/types";
 
 const ProfilePage = ({
   provider,
