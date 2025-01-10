@@ -1,0 +1,97 @@
+/* This ensures that all children of form-wrapper (including form-container) are centered */
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 200px); /* Full height of the viewport */
+  width: 100vw; /* Full width of the viewport */
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative; /* Added to ensure proper positioning */
+  .form-container {
+    padding: 2em;
+    border-radius: 8px;
+    border-radius: 15px;
+    border: 1px solid #1371dd50;
+    box-shadow: 0 0 10px 5px #1371dd09;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    .form-title {
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 24px;
+      color: var(--app-purple);
+    }
+
+    .nft-card {
+      position: relative;
+      padding: 10px;
+      max-width: 250px;
+      background-color: white;
+      border: 1px solid #1371dd3f;
+      box-shadow: 1px 1px 2px 2px #1371dd18;
+      border-radius: 15px;
+      margin: 0 auto;
+      margin-bottom: 2rem;
+
+      img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+      .nft-details {
+        margin-top: 5px;
+        background-color: #1371dd1c;
+        padding: 10px 15px;
+        border-radius: 10px;
+
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .input-group label {
+      display: block;
+      color: #1371dd;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .input-group input {
+      width: calc(100% - 1em); /* Subtract padding from the width */
+      margin-bottom: 1em;
+      padding: 0.5em;
+      padding-left: 15px;
+      border: 1px solid #1371dd6c;
+      border-radius: 7px;
+      font-size: 16px;
+      line-height: 1.5;
+      outline: none;
+      background-color: transparent;
+      color: var(--app-dark-color);
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: var(--app-purple);
+      box-shadow: 0 0 3px 2px #646cff30;
+    }
+
+    .input-group input::placeholder,
+    .input-group textarea::placeholder {
+      color: #888;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center; /* This will center the buttons horizontally */
+      width: 100%; /* Ensure the container takes up the full width */
+      gap: 10px; /* This adds space between your buttons */
+      margin-top: 20px;
+    }
+  }
+}
