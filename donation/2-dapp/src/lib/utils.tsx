@@ -10,7 +10,7 @@ export const removeNotification = (id: number | string, time?: number) => {
   setTimeout(() => toast.done(id), time || 3000);
 };
 
-export const CustomToast = ({ title, message }: any) => (
+export const CustomToast = ({ title, message }: {title:string, message: string}) => (
   <div>
     <h4>{title}</h4>
     <p>{message}</p>
