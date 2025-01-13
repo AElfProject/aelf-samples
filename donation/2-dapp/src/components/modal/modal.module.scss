@@ -1,0 +1,121 @@
+.modal-overlay {
+  align-items: center;
+  background: rgba(1, 14, 40, 0.2);
+  bottom: 0;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition-delay: 0s;
+  transition-duration: 0.4s;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+  visibility: hidden;
+  width: 100%;
+  z-index: 1;
+
+  &.full-width {
+    transform: translateY(-100%);
+    transition-delay: 0s;
+    transition-duration: 0.5s;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    .modalInner {
+      margin: 0;
+      max-width: 100%;
+      height: 100%;
+      width: 100%;
+      border-radius: 0px;
+    }
+    &.in-view {
+      transform: translateY(0%);
+    }
+  }
+
+  &.in-view {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
+  }
+}
+
+.modalInner {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 0 20px;
+  max-width: 600px;
+  overflow: hidden;
+  position: relative;
+  height: 500px;
+  overflow: visible;
+  width: calc(100% - 48px);
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(230, 230, 230);
+    border-radius: 3px;
+  }
+}
+
+.x-mark-wrapper {
+  position: absolute;
+  height: 28px;
+  width: 28px;
+  right: 20px;
+  cursor: pointer;
+
+  .x-mark {
+    position: absolute;
+    width: 1px;
+    height: 27px;
+    background-color: var(--app-purple);
+    transform: rotate(45deg) translate(10px, -10px);
+    top: 0;
+    transition: all 0.5s ease;
+
+    &:nth-child(2) {
+      transform: rotate(-45deg) translate(10px, 10px);
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    background-color: var(--app-purple);
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover {
+    .x-mark {
+      background-color: white;
+    }
+    &::before {
+      height: 40px;
+      width: 40px;
+    }
+  }
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--app-purple);
+  text-align: center;
+  margin-top: 10px;
+}
