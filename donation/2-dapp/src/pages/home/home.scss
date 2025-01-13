@@ -1,0 +1,124 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  .home-collection-container {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px 15px 100px;
+
+    .home-collection-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1371dd2d;
+      padding: 0 10px 15px 10px;
+      h3 {
+        color: var(--app-purple);
+      }
+      .button-wrapper {
+        button {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+        }
+      }
+    }
+
+    .home-collection {
+      padding: 20px 0;
+
+      .campaign-collection {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        width: 100%;
+        gap: 20px;
+      }
+    }
+    .bordered-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 250px;
+      width: 100%;
+      border: 1px solid #1371dd2d;
+      border-radius: 15px;
+      &.no-wallet {
+        margin-top: 20px;
+      }
+      strong {
+        font-size: 18px;
+        color: #0a396e86;
+      }
+    }
+  }
+}
+
+// overrides styles of the react-select dropdown field
+
+.css-13cymwt-control {
+  border: 1px solid #1371dd6c !important;
+  border-radius: 7px !important;
+  min-height: 42px !important;
+  box-shadow: none !important;
+}
+.css-t3ipsp-control {
+  border: 1px solid #1371dd !important;
+  border-radius: 7px !important;
+  min-height: 42px !important;
+  border-color: var(--app-purple);
+  box-shadow: 0 0 3px 2px #1371dd30;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.5em;
+  padding-left: 15px;
+  background-color: white;
+  border: 1px solid #1371dd6c;
+  border-radius: 7px;
+  font-size: 16px;
+  line-height: 1.5;
+  outline: none;
+  color: var(--app-dark-color);
+  transition: all 0.3s ease;
+  font-family: var(--app-font);
+
+  &[type="date"] {
+    position: relative;
+    &::-webkit-calendar-picker-indicator {
+      position: absolute;
+      right: 7px;
+      padding: 5px;
+      background-color: var(--app-purple);
+    }
+  }
+  &:disabled {
+    background-color: rgba(255, 255, 255, 0.116) !important;
+    border-color: rgba(255, 255, 255, 0.288) !important;
+  }
+
+  &:focus {
+    border-color: var(--app-purple);
+    box-shadow: 0 0 3px 2px #1371dd30;
+  }
+
+  &::placeholder {
+    color: #888;
+  }
+
+  &[aria-invalid="true"] {
+    border: 1px solid red;
+    box-shadow: 0 0 3px 2px rgba(255, 0, 0, 0.15);
+  }
+}
+
+.loading-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  gap: 20px;
+}
