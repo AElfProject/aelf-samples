@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package DonationApp;
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "AElf.Contracts.DonationApp";
+
+service DonationDApp {
+    option (aelf.csharp_state) = "AElf.Contracts.DonationApp.DonationDAppState";
+    
+    // Actions
+    rpc Initialize (InitializeInput) returns (google.protobuf.Empty) {
+    }
+    rpc CreateCampaign (CreateCampaignInput) returns (google.protobuf.StringValue) {
+    }
+    rpc Donate (DonateInput) returns (google.protobuf.Empty) {
+    }
+    
+    // Views
+    rpc IsContractInitialized (google.protobuf.Empty) returns (google.protobuf.BoolValue) {
+        option (aelf.is_view) = true;
+    }
+    rpc GetCampaign (google.protobuf.StringValue) returns (CampaignOutput) {
+        option (aelf.is_view) = true;
+    }
+    rpc GetCampaignsData (google.protobuf.Empty) returns (CampaignList) {
+        option (aelf.is_view) = true;
+    }
+    rpc GetDonatorList (google.protobuf.StringValue) returns (DonatorList) {
+        option (aelf.is_view) = true;
+    }
+}
+
+message InitializeInput {}
+
+message CreateCampaignInput {
+    string title = 1;
+    string description = 2;
+    int64 target_amount = 3;
+    google.protobuf.Timestamp start_time = 4;
+    google.protobuf.Timestamp end_time = 5;
+}
+
+message DonateInput {
+    string campaign_id = 1;
+    int64 amount = 2;
+}
+
+message CampaignOutput {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    int64 target_amount = 4;
+    int64 current_amount = 5;
+    google.protobuf.Timestamp start_time = 6;
+    google.protobuf.Timestamp end_time = 7;
+    aelf.Address owner = 8;
+}
+
+message CampaignList {
+    repeated CampaignOutput value = 1;
+}
+
+message DonatorInfo {
+    aelf.Address donor = 1;
+    int64 amount = 2;
+}
+
+message DonatorList {
+    repeated DonatorInfo value = 1;
+} 
