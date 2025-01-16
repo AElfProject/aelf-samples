@@ -1,0 +1,244 @@
+.campaign-detail-container {
+  position: relative;
+  width: 100%;
+  background-color: white;
+  border-radius: 20px;
+  border: 1px solid #1371dd2d;
+  box-shadow: 0px 1px 5px 2px #1371dd13;
+  overflow: hidden;
+  padding: 15px;
+
+  .top-view {
+    display: flex;
+    width: 100%;
+    gap: 15px;
+    height: 400px;
+    margin-bottom: 10px;
+
+    .image-container {
+      position: relative;
+      width: calc(100% - 365px);
+      img {
+        height: 100%;
+        width: 100%;
+        background-color: #1371dd2d;
+        object-fit: cover;
+        cursor: pointer;
+        border-radius: 10px;
+      }
+      .btn-wrapper {
+        position: absolute;
+        display: flex;
+        gap: 10px;
+        top: 10px;
+        right: 10px;
+      }
+    }
+    .donate-container {
+      width: 350px;
+      border: 1px solid #1371dd2d;
+      border-radius: 10px;
+      padding: 15px 10px;
+
+      h3 {
+        text-align: center;
+        color: var(--app-purple);
+      }
+
+      .counter-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 15px;
+
+        .counter-box {
+          height: 65px;
+          width: 75px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #1371dd2d;
+          border-radius: 10px;
+          background-color: #1371dd10;
+
+          p {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--app-purple);
+          }
+
+          span {
+            font-size: 14px;
+            line-height: 16px;
+            color: var(--app-purple);
+          }
+        }
+      }
+      .raised-progress-bar {
+        height: 20px;
+        width: 100%;
+        border: 1px solid #1371dd2d;
+        border-radius: 10px;
+        padding: 2px;
+        box-shadow: 0px 0px 5px 2px #1371dd13;
+        overflow: hidden;
+
+        .active-bar {
+          height: 100%;
+          border-radius: 10px;
+          background-color: var(--app-purple);
+        }
+      }
+
+      .raised-amount,
+      .donation-text,
+      .your-balance {
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .your-balance {
+        position: relative;
+        background-color: #1371dd09;
+        padding-block: 3px;
+        border-radius: 5px;
+
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          height: 2px;
+          width: 70px;
+          border-radius: 2px;
+          background-color: #1371dd2d;
+          top: 50%;
+          left: 0;
+        }
+
+        &::after {
+          left: unset;
+          right: 0;
+        }
+      }
+
+      .donate-input {
+        position: relative;
+        margin-top: 20px;
+
+        input {
+          font-weight: 600;
+          color: var(--app-purple);
+        }
+
+        &.with-error {
+          input {
+            color: rgb(255, 0, 0);
+            border-color: rgb(255, 0, 0);
+            box-shadow: 0 0 3px 2px rgba(221, 19, 19, 0.188);
+          }
+          .error-text {
+            position: absolute;
+            font-size: 14px;
+            color: rgb(255, 0, 0);
+          }
+        }
+
+        button {
+          position: absolute;
+          right: 4px;
+          top: 4.5px;
+          font-size: 14px;
+          border-radius: 5px;
+        }
+      }
+
+      .donate-btn {
+        margin-top: 35px;
+        width: 100%;
+      }
+
+      .campaign-over {
+        width: max-content;
+        margin: 40px auto 0;
+        padding: 20px 50px;
+        background-color: #1371dd10;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  .info {
+    padding-top: 5px;
+
+    .category {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+      color: var(--app-purple);
+
+      p {
+        font-size: 14px;
+        line-height: 15px;
+        text-transform: capitalize;
+      }
+    }
+
+    p {
+      &.title {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      &.desc {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--secondary-text-color);
+        margin-top: 5px;
+      }
+    }
+
+    .section-title {
+      margin-top: 20px;
+    }
+
+    .creator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-block: 10px 15px;
+      img {
+        height: auto;
+        width: 35px;
+      }
+      p {
+        font-size: 14px;
+        color: var(--app-purple);
+      }
+    }
+
+    .donator-list {
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 600px;
+        background-color: #1371dd10;
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: 1px solid #1371dd20;
+        margin-top: 10px;
+
+        p {
+          font-size: 14px;
+          color: var(--app-purple);
+        }
+      }
+    }
+    button {
+      width: 100%;
+      font-size: 15px;
+    }
+  }
+}

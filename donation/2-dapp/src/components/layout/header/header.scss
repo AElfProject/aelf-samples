@@ -1,0 +1,74 @@
+.app-navbar {
+  width: 100vw;
+  border-bottom: 1px solid #1371dd2d;
+  position: fixed;
+  left: 0;
+  background-color: white;
+  z-index: 1;
+  top: 0;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo-image {
+      cursor: pointer;
+    }
+
+    .right-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .search-container {
+        position: relative;
+        .search-input {
+          min-width: 300px;
+          &::placeholder {
+            color: var(--app-purple);
+            opacity: 0.4;
+          }
+        }
+        button {
+          display: flex;
+          align-items: center;
+          position: absolute;
+          height: 34px;
+          right: 4px;
+          top: 4px;
+          padding: 0 15px;
+          border-radius: 5px;
+        }
+      }
+
+      .balance-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-width: 100px;
+
+        svg {
+          height: 20px;
+          width: 20px;
+        }
+      }
+
+      .connect-btn {
+        min-width: 150px;
+        padding: 0.7em 1.2em;
+      }
+      .profile-button {
+        display: flex;
+        padding: 3px;
+        border-radius: 50%;
+        background-color: white;
+        outline: none;
+        img {
+          height: auto;
+          width: 37px;
+        }
+      }
+    }
+  }
+}
