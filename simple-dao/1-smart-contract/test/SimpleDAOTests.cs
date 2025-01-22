@@ -8,6 +8,8 @@ using AElf.Types;
 using Google.Protobuf.WellKnownTypes;
 using Shouldly;
 using Xunit;
+using AElf.ContractTestKit;
+using AElf.Cryptography.ECDSA;
 
 namespace AElf.Contracts.SimpleDAO
 {
@@ -19,16 +21,14 @@ namespace AElf.Contracts.SimpleDAO
         private const int DefaultProposalEndTimeOffset = 100;
         
         [Fact]
-        public async Task InitializeContract_Success()
+        public async Task Initialize_Success()
         {
-            // Act
-            var result = await InitializeSimpleDaoContract();
-            
-            // Assert
+            await InitializeContracts();
+            var result = await SimpleDAOStub.Initialize.SendAsync(new InitializeInput
+            {
+                TokenSymbol = "ELF"
+            });
             result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
-
-            var symbol = await SimpleDAOStub.GetTokenSymbol.CallAsync(new Empty());
-            symbol.Value.ShouldBe(TokenSymbol);
         }
         
         [Fact]
