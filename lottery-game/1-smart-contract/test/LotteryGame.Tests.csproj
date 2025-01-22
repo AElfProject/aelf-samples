@@ -51,4 +51,10 @@
         <ProjectReference Include="../src/LotteryGame.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ContractStub Include="..\..\protobuf\token_contract.proto">
+            <Link>Protobuf\Proto\token_contract.proto</Link>
+        </ContractStub>
+    </ItemGroup>
+
 </Project>
