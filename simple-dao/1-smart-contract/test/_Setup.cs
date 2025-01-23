@@ -1,37 +1,51 @@
-﻿using AElf.Cryptography.ECDSA;
+﻿using System.Threading.Tasks;
+using AElf.Contracts.MultiToken;
 using AElf.ContractTestBase;
 using AElf.ContractTestKit;
+using AElf.Kernel.SmartContract;
 using AElf.Kernel.SmartContract.Application;
 using AElf.Types;
+using Google.Protobuf;
 using Volo.Abp.Modularity;
-using AElf.Kernel.SmartContract;
-using System.Threading.Tasks;
-using Volo.Abp.Threading;
-using System.IO;
 using AElf.Kernel;
 using Microsoft.Extensions.DependencyInjection;
-using AElf.Contracts.MultiToken;
+using AElf.Cryptography.ECDSA;
+using AElf.Kernel.Token;
+using AElf.Standards.ACS0;
+using Volo.Abp.Threading;
+using System.IO;
+using Google.Protobuf.WellKnownTypes;
+using AElf.CSharp.Core;
 
 namespace AElf.Contracts.SimpleDAO
 {
-    [DependsOn(typeof(ContractTestModule))]
+    [DependsOn(
+    typeof(ContractTestModule))]
     public class Module : ContractTestModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             base.ConfigureServices(context);
             Configure<ContractOptions>(o => o.ContractDeploymentAuthorityRequired = false);
+            
+            context.Services.AddSingleton<IBlockTimeProvider, BlockTimeProvider>();
+            context.Services.AddSingleton<TokenContractContainer.TokenContractStub>();
+            
+            // Add Token contract initialization
+            context.Services.AddSingleton<IContractInitializationProvider, TokenContractInitializationProvider>();
         }
     }
-    
+
     public class TestBase : ContractTestBase<Module>
     {
-        internal Address ContractAddress { get; set; }
-        internal SimpleDAOContainer.SimpleDAOStub SimpleDAOStub { get; set; }
-        internal TokenContractContainer.TokenContractStub TokenContractStub { get; set; }
-        private ECKeyPair DefaultKeyPair => Accounts[0].KeyPair;
-        protected Address TokenContractAddress { get; set; }
-        protected IBlockTimeProvider BlockTimeProvider { get; set; }
+        internal SimpleDAOContainer.SimpleDAOStub SimpleDAOStub { get; private set; }
+        internal TokenContractContainer.TokenContractStub TokenContractStub { get; private set; }
+        internal IBlockTimeProvider BlockTimeProvider { get; private set; }
+        
+        protected ECKeyPair DefaultKeyPair => Accounts[0].KeyPair;
+        protected Address ContractAddress { get; private set; }
+        protected Address TokenContractAddress { get; private set; }
+        protected Address SimpleDAOAddress => ContractAddress;
 
         public TestBase()
         {
@@ -39,32 +53,79 @@ namespace AElf.Contracts.SimpleDAO
             AsyncHelper.RunSync(InitializeContracts);
         }
 
-        protected async Task InitializeContracts()
+        private async Task InitializeContracts()
         {
-            // Deploy SimpleDAO contract
+            // Deploy Token Contract as system contract
+            TokenContractAddress = await DeploySystemSmartContract(
+                KernelConstants.CodeCoverageRunnerCategory,
+                File.ReadAllBytes(typeof(TokenContract).Assembly.Location),
+                HashHelper.ComputeFrom("AElf.ContractNames.Token"),
+                DefaultKeyPair
+            );
+
+            // Deploy SimpleDAO Contract
             ContractAddress = await DeployContractAsync(
-                KernelConstants.DefaultRunnerCategory,
+                KernelConstants.CodeCoverageRunnerCategory,
                 File.ReadAllBytes(typeof(SimpleDAO).Assembly.Location),
                 HashHelper.ComputeFrom("SimpleDAO"),
                 DefaultKeyPair
             );
-            
-            // Get Token contract address
-            TokenContractAddress = Address.FromBase58("ASh2Wt7nSEmYqnGxPPzp4pnVDU4uhj1XW9Se5VeZcX2UDdyjx");
-            
-            // Initialize contract stubs
-            SimpleDAOStub = GetSimpleDAOContractStub(DefaultKeyPair);
-            TokenContractStub = GetTokenContractStub(DefaultKeyPair);
-        }
 
-        private SimpleDAOContainer.SimpleDAOStub GetSimpleDAOContractStub(ECKeyPair keyPair)
-        {
-            return GetTester<SimpleDAOContainer.SimpleDAOStub>(ContractAddress, keyPair);
-        }
+            // Initialize stubs
+            SimpleDAOStub = GetTester<SimpleDAOContainer.SimpleDAOStub>(ContractAddress, DefaultKeyPair);
+            TokenContractStub = GetTester<TokenContractContainer.TokenContractStub>(TokenContractAddress, DefaultKeyPair);
 
-        private TokenContractContainer.TokenContractStub GetTokenContractStub(ECKeyPair keyPair)
-        {
-            return GetTester<TokenContractContainer.TokenContractStub>(TokenContractAddress, keyPair);
+            // Create the seed NFT collection first
+            await TokenContractStub.Create.SendAsync(new CreateInput
+            {
+                Symbol = "SEED-0",
+                TokenName = "Seed Collection",
+                TotalSupply = 1,
+                Decimals = 0,
+                Issuer = Accounts[0].Address,
+                IsBurnable = false,
+                Owner = Accounts[0].Address,
+                IssueChainId = 9992731,
+                ExternalInfo = new ExternalInfo
+                {
+                    Value = { { "TokenType", "NFT" } }
+                }
+            });
+
+            // Issue the seed NFT to the default account
+            await TokenContractStub.Issue.SendAsync(new IssueInput
+            {
+                Symbol = "SEED-0",
+                Amount = 1,
+                To = Accounts[0].Address,
+                Memo = "Issue seed NFT"
+            });
+
+            // Create the native token (ELF)
+            await TokenContractStub.Create.SendAsync(new CreateInput
+            {
+                Symbol = "ELF",
+                TokenName = "ELF Token",
+                TotalSupply = 100_000_000_000_000_000L,
+                Decimals = 8,
+                Issuer = Accounts[0].Address,
+                IsBurnable = true,
+                Owner = Accounts[0].Address,
+                IssueChainId = 9992731,
+                ExternalInfo = new ExternalInfo
+                {
+                    Value = { { "TokenType", "FT" } }
+                }
+            });
+
+            // Issue the native token to the default account
+            await TokenContractStub.Issue.SendAsync(new IssueInput
+            {
+                Symbol = "ELF",
+                Amount = 100_000_000_000_000_000L,
+                To = Accounts[0].Address,
+                Memo = "Issue native token"
+            });
         }
     }
 }

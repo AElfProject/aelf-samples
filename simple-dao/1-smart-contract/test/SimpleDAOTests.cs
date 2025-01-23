@@ -10,6 +10,7 @@ using Shouldly;
 using Xunit;
 using AElf.ContractTestKit;
 using AElf.Cryptography.ECDSA;
+using AElf.Kernel.SmartContract.Application;
 
 namespace AElf.Contracts.SimpleDAO
 {
@@ -21,14 +22,21 @@ namespace AElf.Contracts.SimpleDAO
         private const int DefaultProposalEndTimeOffset = 100;
         
         [Fact]
-        public async Task Initialize_Success()
+        public async Task Initialize_Test()
         {
-            await InitializeContracts();
+            // Arrange
+            var tokenSymbol = "ELF";
+
+            // Act
             var result = await SimpleDAOStub.Initialize.SendAsync(new InitializeInput
             {
-                TokenSymbol = "ELF"
+                TokenSymbol = tokenSymbol
             });
+
+            // Assert
             result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
+            var tokenSymbolOutput = await SimpleDAOStub.GetTokenSymbol.CallAsync(new Empty());
+            tokenSymbolOutput.Value.ShouldBe(tokenSymbol);
         }
         
         [Fact]
@@ -61,24 +69,31 @@ namespace AElf.Contracts.SimpleDAO
         [Fact]
         public async Task CreateProposal_Success()
         {
+            // Arrange
             await InitializeSimpleDaoContract();
-            
-            var input = new CreateProposalInput
+            var title = "Test Proposal";
+            var description = "This is a test proposal";
+            var startTime = TimestampHelper.GetUtcNow();
+            var expireTime = startTime.AddSeconds(DefaultProposalEndTimeOffset);
+
+            // Act
+            var result = await SimpleDAOStub.CreateProposal.SendAsync(new CreateProposalInput
             {
-                Title = "Test Proposal",
-                Description = "This is a test proposal.",
-                EndTimestamp = Timestamp.FromDateTime(DateTime.UtcNow.AddSeconds(DefaultProposalEndTimeOffset)),
-                StartTimestamp = Timestamp.FromDateTime(DateTime.UtcNow)
-            };
+                Title = title,
+                Description = description,
+                StartTimestamp = startTime,
+                EndTimestamp = expireTime
+            });
 
-            var result = await SimpleDAOStub.CreateProposal.SendAsync(input);
+            // Assert
             result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
-
-            const string proposalId = "1";
-            var proposal = await SimpleDAOStub.GetProposal.CallAsync(new StringValue{ Value = proposalId });
-            proposal.ShouldNotBeNull();
-            proposal.Title.ShouldBe(input.Title);
-            proposal.Description.ShouldBe(input.Description);
+            var proposalList = await SimpleDAOStub.GetAllProposals.CallAsync(new Empty());
+            proposalList.Proposals.Count.ShouldBe(1);
+            var proposal = proposalList.Proposals[0];
+            proposal.Title.ShouldBe(title);
+            proposal.Description.ShouldBe(description);
+            proposal.StartTimestamp.ShouldBe(startTime);
+            proposal.EndTimestamp.ShouldBe(expireTime);
         }
 
         [Fact]
@@ -819,30 +834,31 @@ namespace AElf.Contracts.SimpleDAO
             result2.Value.ShouldBeFalse();
         }
 
-        private async Task<IExecutionResult<Empty>> InitializeSimpleDaoContract()
+        private async Task InitializeSimpleDaoContract()
         {
-            return await SimpleDAOStub.Initialize.SendAsync(new InitializeInput
+            var result = await SimpleDAOStub.Initialize.SendAsync(new InitializeInput
             {
                 TokenSymbol = TokenSymbol
             });
+            result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
         }
         
         private async Task<string> CreateTestProposalAsync(Timestamp startTime = null, Timestamp expireTime = null)
         {
-            var input = new CreateProposalInput
+            startTime ??= TimestampHelper.GetUtcNow();
+            expireTime ??= startTime.AddSeconds(DefaultProposalEndTimeOffset);
+
+            var result = await SimpleDAOStub.CreateProposal.SendAsync(new CreateProposalInput
             {
                 Title = "Test Proposal",
-                Description = "This is a test proposal.",
-                EndTimestamp = expireTime ?? BlockTimeProvider.GetBlockTime().AddSeconds(100),
-                StartTimestamp = startTime ?? BlockTimeProvider.GetBlockTime()
-            };
-
-            var result = await SimpleDAOStub.CreateProposal.SendAsync(input);
+                Description = "This is a test proposal",
+                StartTimestamp = startTime,
+                EndTimestamp = expireTime
+            });
             result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
 
-            var proposals = await SimpleDAOStub.GetAllProposals.CallAsync(new Empty());
-            
-            return proposals.Proposals.Count.ToString();
+            var proposalList = await SimpleDAOStub.GetAllProposals.CallAsync(new Empty());
+            return proposalList.Proposals.Last().Id;
         }
         
         private async Task InitializeAndApproveSimpleDaoContract()
@@ -853,22 +869,24 @@ namespace AElf.Contracts.SimpleDAO
 
         private async Task TokenContractApprove(TokenContractContainer.TokenContractStub tokenContractStub)
         {
-            await tokenContractStub.Approve.SendAsync(new ApproveInput
+            var result = await tokenContractStub.Approve.SendAsync(new ApproveInput
             {
-                Spender = ContractAddress,
+                Spender = SimpleDAOAddress,
                 Symbol = TokenSymbol,
-                Amount = 10
+                Amount = BallotAmount
             });
+            result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
         }
 
         private async Task SendTokenTo(Address address)
         {
-            await TokenContractStub.Transfer.SendAsync(new TransferInput
+            var result = await TokenContractStub.Transfer.SendAsync(new TransferInput
             {
                 To = address,
                 Symbol = TokenSymbol,
-                Amount = 100
+                Amount = BallotAmount
             });
+            result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
         }
     }
     

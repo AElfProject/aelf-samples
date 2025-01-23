@@ -25,6 +25,7 @@
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
         <PackageReference Include="AElf.ContractTestKit" Version="1.12.0" />
         <PackageReference Include="Volo.Abp.Core" Version="8.0.5" />
+        <PackageReference Include="AElf.Contracts.MultiToken" Version="1.12.0" />
         <PackageReference Include="AElf.Tools" Version="1.0.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -52,9 +53,24 @@
         <ContractStub Include="Protobuf/reference/acs0.proto">
             <Link>Protobuf/Proto/acs0.proto</Link>
         </ContractStub>
+        <ContractStub Include="Protobuf/reference/acs12.proto">
+            <Link>Protobuf/Proto/acs12.proto</Link>
+        </ContractStub>
         <ContractStub Include="Protobuf/stub/token_contract.proto">
             <Link>Protobuf/Proto/token_contract.proto</Link>
         </ContractStub>
+        <ContractStub Include="Protobuf/stub/simple_dao.proto">
+            <Link>Protobuf/Proto/simple_dao.proto</Link>
+        </ContractStub>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ContractBase Include="Protobuf/reference/acs0.proto">
+            <Link>Protobuf/Proto/acs0.proto</Link>
+        </ContractBase>
+        <ContractBase Include="Protobuf/reference/acs12.proto">
+            <Link>Protobuf/Proto/acs12.proto</Link>
+        </ContractBase>
     </ItemGroup>
 
     <ItemGroup>
