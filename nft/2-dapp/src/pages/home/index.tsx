@@ -8,6 +8,7 @@ import { NFT_IMAGES } from "@/lib/constant";
 import { Button } from "@/components/ui/button";
 import useNFTSmartContract from "@/hooks/useNFTSmartContract";
 import { fetchUserNftData } from "@/lib/commonFunctions";
+import { IContract } from "@/lib/types";
 
 const HomePage = ({
   provider,
