@@ -1,34 +1,34 @@
-using AElf.Contracts.TestKit;
+using AElf.ContractTestKit;
 using AElf.Kernel;
 using AElf.Types;
 using Google.Protobuf.WellKnownTypes;
 using Shouldly;
 using Xunit;
-using Task = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
 
 namespace AElf.Contracts.ToDo.Tests
 {
     public class ToDoTests : ToDoContractTestBase
     {
-        private async Task InitializeContractAsync()
+        private void InitializeContract()
         {
-            var result = await ToDoContractStub.Initialize.SendAsync(new Empty());
+            var result = ToDoContractStub.Initialize.SendAsync(new Empty()).Result;
             result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
         }
 
         [Fact]
-        public async Task Initialize_Contract_Test()
+        public void Initialize_Contract_Test()
         {
-            await InitializeContractAsync();
+            InitializeContract();
 
-            var status = await ToDoContractStub.GetInitialStatus.CallAsync(new Empty());
+            var status = ToDoContractStub.GetInitialStatus.CallAsync(new Empty()).Result;
             status.Value.ShouldBeTrue();
         }
 
         [Fact]
-        public async Task CreateTask_Test()
+        public void CreateTask_Test()
         {
-            await InitializeContractAsync();
+            InitializeContract();
 
             var taskInput = new TaskInput
             {
@@ -37,11 +37,11 @@ namespace AElf.Contracts.ToDo.Tests
                 Category = "General"
             };
 
-            var result = await ToDoContractStub.CreateTask.SendAsync(taskInput);
+            var result = ToDoContractStub.CreateTask.SendAsync(taskInput).Result;
             result.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
 
             var taskId = result.Output.Value;
-            var task = await ToDoContractStub.GetTask.CallAsync(new StringValue { Value = taskId });
+            var task = ToDoContractStub.GetTask.CallAsync(new StringValue { Value = taskId }).Result;
 
             task.TaskId.ShouldBe(taskId);
             task.Name.ShouldBe(taskInput.Name);
@@ -51,9 +51,9 @@ namespace AElf.Contracts.ToDo.Tests
         }
 
         [Fact]
-        public async Task UpdateTask_Test()
+        public void UpdateTask_Test()
         {
-            await InitializeContractAsync();
+            InitializeContract();
 
             var taskInput = new TaskInput
             {
@@ -62,7 +62,7 @@ namespace AElf.Contracts.ToDo.Tests
                 Category = "General"
             };
 
-            var createResult = await ToDoContractStub.CreateTask.SendAsync(taskInput);
+            var createResult = ToDoContractStub.CreateTask.SendAsync(taskInput).Result;
             var taskId = createResult.Output.Value;
 
             var updateInput = new TaskUpdateInput
@@ -74,10 +74,10 @@ namespace AElf.Contracts.ToDo.Tests
                 Status = "completed"
             };
 
-            var updateResult = await ToDoContractStub.UpdateTask.SendAsync(updateInput);
+            var updateResult = ToDoContractStub.UpdateTask.SendAsync(updateInput).Result;
             updateResult.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
 
-            var updatedTask = await ToDoContractStub.GetTask.CallAsync(new StringValue { Value = taskId });
+            var updatedTask = ToDoContractStub.GetTask.CallAsync(new StringValue { Value = taskId }).Result;
 
             updatedTask.Name.ShouldBe(updateInput.Name);
             updatedTask.Description.ShouldBe(updateInput.Description);
@@ -86,9 +86,9 @@ namespace AElf.Contracts.ToDo.Tests
         }
 
         [Fact]
-        public async Task DeleteTask_Test()
+        public void DeleteTask_Test()
         {
-            await InitializeContractAsync();
+            InitializeContract();
 
             var taskInput = new TaskInput
             {
@@ -97,20 +97,20 @@ namespace AElf.Contracts.ToDo.Tests
                 Category = "General"
             };
 
-            var createResult = await ToDoContractStub.CreateTask.SendAsync(taskInput);
+            var createResult = ToDoContractStub.CreateTask.SendAsync(taskInput).Result;
             var taskId = createResult.Output.Value;
 
-            var deleteResult = await ToDoContractStub.DeleteTask.SendAsync(new StringValue { Value = taskId });
+            var deleteResult = ToDoContractStub.DeleteTask.SendAsync(new StringValue { Value = taskId }).Result;
             deleteResult.TransactionResult.Status.ShouldBe(TransactionResultStatus.Mined);
 
-            var deletedTask = await ToDoContractStub.GetTask.CallAsync(new StringValue { Value = taskId });
+            var deletedTask = ToDoContractStub.GetTask.CallAsync(new StringValue { Value = taskId }).Result;
             deletedTask.Name.ShouldBe("Task not found.");
         }
 
         [Fact]
-        public async Task ListTasks_Test()
+        public void ListTasks_Test()
         {
-            await InitializeContractAsync();
+            InitializeContract();
 
             var taskInput1 = new TaskInput
             {
@@ -126,10 +126,10 @@ namespace AElf.Contracts.ToDo.Tests
                 Category = "Work"
             };
 
-            await ToDoContractStub.CreateTask.SendAsync(taskInput1);
-            await ToDoContractStub.CreateTask.SendAsync(taskInput2);
+            ToDoContractStub.CreateTask.SendAsync(taskInput1).Wait();
+            ToDoContractStub.CreateTask.SendAsync(taskInput2).Wait();
 
-            var taskList = await ToDoContractStub.ListTasks.CallAsync(new StringValue { Value = DefaultSender.ToString() });
+            var taskList = ToDoContractStub.ListTasks.CallAsync(new StringValue { Value = DefaultSender.ToString().Trim('"') }).Result;
 
             taskList.Tasks.Count.ShouldBe(2);
         }
