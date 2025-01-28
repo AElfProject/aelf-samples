@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>AElf.Contracts.DonationApp</RootNamespace>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,20 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AElf.Testing.TestBase" Version="1.1.0" />
-    <PackageReference Include="AElf.ContractTestKit" Version="1.1.0" />
-    <PackageReference Include="AElf.Types" Version="1.10.0" />
-    <PackageReference Include="AElf.Kernel.SmartContract" Version="1.10.0" />
-    <PackageReference Include="AElf.CSharp.Core" Version="1.10.0" />
-    <PackageReference Include="AElf.Contracts.Genesis" Version="1.3.0" />
-    <PackageReference Include="AElf.Tools" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <ProjectReference Include="../src/Donation.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="AElf.TestBase" Version="1.12.0" />
+    <PackageReference Include="AElf.ContractTestBase" Version="1.12.0" />
+    <PackageReference Include="AElf.EconomicSystem" Version="1.12.0" />
+    <PackageReference Include="AElf.GovernmentSystem" Version="1.12.0" />
+    <PackageReference Include="AElf.Kernel.Token" Version="1.12.0" />
+    <PackageReference Include="AElf.Types" Version="1.12.0" />
     <PackageReference Include="coverlet.msbuild" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Shouldly" Version="4.2.1" />
@@ -41,12 +33,22 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="AElf.ContractTestKit" Version="1.12.0" />
+    <PackageReference Include="Volo.Abp.Core" Version="8.2.2" />
+    <PackageReference Include="AElf.Tools" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ContractStub Include="../src/Protobuf/*.proto">
-      <Link>Protobuf/%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </ContractStub>
+    <ContractBase Include="Protobuf/reference/*.proto" />
+    <ContractStub Include="Protobuf/stub/*.proto" />
+    <ContractMessage Include="Protobuf/message/*.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../src/Donation.csproj" />
   </ItemGroup>
 
 </Project> 

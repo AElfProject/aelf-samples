@@ -1,76 +1,146 @@
 syntax = "proto3";
 
-package DonationApp;
-
 import "aelf/core.proto";
 import "aelf/options.proto";
 import "google/protobuf/empty.proto";
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
+import "Protobuf/reference/acs12.proto";
 
 option csharp_namespace = "AElf.Contracts.DonationApp";
 
 service DonationDApp {
-    option (aelf.csharp_state) = "AElf.Contracts.DonationApp.DonationDAppState";
+    option (aelf.csharp_state) = "AElf.Contracts.DonationApp.DonationAppState";
+    option (aelf.base) = "Protobuf/reference/acs12.proto";
     
-    // Actions
-    rpc Initialize (InitializeInput) returns (google.protobuf.Empty) {
-    }
-    rpc CreateCampaign (CreateCampaignInput) returns (google.protobuf.StringValue) {
-    }
-    rpc Donate (DonateInput) returns (google.protobuf.Empty) {
-    }
-    
-    // Views
     rpc IsContractInitialized (google.protobuf.Empty) returns (google.protobuf.BoolValue) {
         option (aelf.is_view) = true;
     }
-    rpc GetCampaign (google.protobuf.StringValue) returns (CampaignOutput) {
+    
+    rpc Initialize (google.protobuf.Empty) returns (google.protobuf.StringValue) {
+    }
+    
+    rpc CreateCampaign (CampaignInput) returns (google.protobuf.StringValue) {
+    }
+    
+    rpc Donate (DonationInput) returns (google.protobuf.Empty) {
+    }
+    
+    rpc GetCampaign (google.protobuf.StringValue) returns (Campaign) {
         option (aelf.is_view) = true;
     }
+    
     rpc GetCampaignsData (google.protobuf.Empty) returns (CampaignList) {
         option (aelf.is_view) = true;
     }
-    rpc GetDonatorList (google.protobuf.StringValue) returns (DonatorList) {
+    
+    rpc GetUsersCampaigns (aelf.Address) returns (CampaignList) {
+        option (aelf.is_view) = true;
+    }
+    
+    rpc EditCampaign (EditCampaignInput) returns (google.protobuf.Empty) {
+    }
+    
+    rpc DeleteCampaign (google.protobuf.StringValue) returns (google.protobuf.Empty) {
+    }
+    
+    rpc WithdrawCampaignAmount (WithdrawCampaignInput) returns (google.protobuf.Empty) {
+    }
+    
+    rpc GetUserDetails (aelf.Address) returns (UserDetails) {
         option (aelf.is_view) = true;
     }
 }
 
-message InitializeInput {}
-
-message CreateCampaignInput {
+message CampaignInput {
     string title = 1;
     string description = 2;
-    int64 target_amount = 3;
-    google.protobuf.Timestamp start_time = 4;
-    google.protobuf.Timestamp end_time = 5;
+    string imageUrl = 3;
+    string type = 4;
+    int64 goalAmount = 5;
+    int64 duration = 6;
 }
 
-message DonateInput {
-    string campaign_id = 1;
+message WithdrawCampaignInput {
+    string campaignId = 1;
+}
+
+message DonationInput {
+    string campaignId = 1;
     int64 amount = 2;
 }
 
-message CampaignOutput {
+message EditCampaignInput {
+    string campaignId = 1;
+    string newTitle = 2;
+    string newDescription = 3;
+    string newImageUrl = 4;
+    string newType = 5;
+    int64 newGoalAmount = 6;
+    bool newIsActive = 7;
+}
+
+message Donation {
+    aelf.Address donor = 1;
+    int64 amount = 2;
+    int64 timestamp = 3;
+}
+
+message Campaign {
     string id = 1;
     string title = 2;
     string description = 3;
-    int64 target_amount = 4;
-    int64 current_amount = 5;
-    google.protobuf.Timestamp start_time = 6;
-    google.protobuf.Timestamp end_time = 7;
-    aelf.Address owner = 8;
+    string imageUrl = 4;
+    string type = 5;
+    int64 goalAmount = 6;
+    int64 currentAmount = 7;
+    aelf.Address creator = 8;
+    int64 startTime = 9;
+    int64 endTime = 10;
+    repeated Donation donators = 11;
+    bool isActive = 12;
+    bool isWithdrawn = 13;
 }
 
 message CampaignList {
-    repeated CampaignOutput value = 1;
+    repeated Campaign value = 1;
 }
 
-message DonatorInfo {
-    aelf.Address donor = 1;
+message UserDetails {
+    aelf.Address walletAddress = 1;
+    repeated Campaign campaigns = 2;
+    repeated Campaign donatedCampaigns = 3;
+    int64 totalRaisedAmount = 4;
+}
+
+message UserInfo {
+    repeated string campaigns = 1;
+    repeated string donated_campaigns = 2;
+    int64 total_raised_amount = 3;
+}
+
+message DonationList {
+    repeated Donation value = 1;
+}
+
+// Events
+message CampaignCreatedEvent {
+    option (aelf.is_event) = true;
+    string campaignId = 1;
+    string title = 2;
+    aelf.Address creator = 3;
+    int64 goalAmount = 4;
+}
+
+message DonationMadeEvent {
+    option (aelf.is_event) = true;
+    string campaignId = 1;
+    aelf.Address donor = 2;
+    int64 amount = 3;
+}
+
+message CampaignWithdrawnEvent {
+    option (aelf.is_event) = true;
+    string campaignId = 1;
     int64 amount = 2;
-}
-
-message DonatorList {
-    repeated DonatorInfo value = 1;
+    aelf.Address recipient = 3;
 } 
