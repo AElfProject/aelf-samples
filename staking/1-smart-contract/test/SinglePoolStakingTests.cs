@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AElf.Types;
 using Google.Protobuf.WellKnownTypes;
 using Shouldly;
 using Xunit;
@@ -6,21 +7,41 @@ using Xunit;
 namespace AElf.Contracts.SinglePoolStaking
 {
     // This class is unit test class, and it inherit TestBase. Write your unit test code inside it
-    public class SinglePoolStakingTests : TestBase
+    public class SinglePoolStakingTests : SinglePoolStakingTestBase
     {
         [Fact]
-        public async Task Update_ShouldUpdateMessageAndFireEvent()
+        public async Task Initialize_Test()
         {
             // Arrange
-            var inputValue = "Hello, World!";
-            var input = new StringValue { Value = inputValue };
+            var tokenContractAddress = Address.FromPublicKey(DefaultKeyPair.PublicKey);
+            var input = new InitializeInput
+            {
+                TokenContractAddress = tokenContractAddress
+            };
 
             // Act
-            await SinglePoolStakingStub.Update.SendAsync(input);
-
+            await SinglePoolStakingStub.Initialize.SendAsync(input);
+            
             // Assert
-            var updatedMessage = await SinglePoolStakingStub.Read.CallAsync(new Empty());
-            updatedMessage.Value.ShouldBe(inputValue);
+            var initialized = await SinglePoolStakingStub.IfInitialized.CallAsync(new Empty());
+            initialized.Value.ShouldBeTrue();
+        }
+
+        [Fact]
+        public async Task GetTotalStakedAmount_ShouldBeZero_WhenNoDeposits()
+        {
+            // Arrange
+            var tokenContractAddress = Address.FromPublicKey(DefaultKeyPair.PublicKey);
+            await SinglePoolStakingStub.Initialize.SendAsync(new InitializeInput
+            {
+                TokenContractAddress = tokenContractAddress
+            });
+
+            // Act
+            var totalStaked = await SinglePoolStakingStub.GetTotalStakedAmount.CallAsync(new Empty());
+            
+            // Assert
+            totalStaked.Value.ShouldBe(0);
         }
     }
     
