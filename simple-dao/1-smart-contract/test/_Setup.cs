@@ -1,43 +1,59 @@
-﻿using AElf.Contracts.MultiToken;
-using AElf.ContractTestBase.ContractTestKit;
-using AElf.Cryptography.ECDSA;
-using Microsoft.Extensions.DependencyInjection;
+﻿using AElf.Cryptography.ECDSA;
+using AElf.ContractTestBase;
+using AElf.ContractTestKit;
+using AElf.Types;
 using Volo.Abp.Modularity;
+using AElf.Kernel.SmartContract;
+using System.Threading.Tasks;
+using Volo.Abp.Threading;
+using System.IO;
+using AElf.Kernel;
 
 namespace AElf.Contracts.SimpleDAO
 {
     // The Module class load the context required for unit testing
-    public class Module : Testing.TestBase.ContractTestModule<SimpleDAO>
+    [DependsOn(typeof(ContractTestModule))]
+    public class Module : ContractTestModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             base.ConfigureServices(context);
-            context.Services.AddSingleton<IBlockTimeProvider, BlockTimeProvider>();
+            // disable authority for deployment
+            Configure<ContractOptions>(o => o.ContractDeploymentAuthorityRequired = false);
         }
     }
     
     // The TestBase class inherit ContractTestBase class, it defines Stub classes and gets instances required for unit testing
-    public class TestBase : Testing.TestBase.ContractTestBase<Module>
+    public class TestBase : ContractTestBase<Module>
     {
-        internal IBlockTimeProvider BlockTimeProvider;
-        
         // The Stub class for unit testing
-        internal readonly SimpleDAOContainer.SimpleDAOStub SimpleDAOStub;
-        internal readonly TokenContractContainer.TokenContractStub TokenContractStub;
+        internal SimpleDAOContainer.SimpleDAOStub SimpleDAOStub { get; private set; }
         // A key pair that can be used to interact with the contract instance
         private ECKeyPair DefaultKeyPair => Accounts[0].KeyPair;
+        protected Address ContractAddress { get; set; }
 
         public TestBase()
         {
-            SimpleDAOStub = GetSimpleDAOContractStub(DefaultKeyPair);
-            TokenContractStub = GetTester<TokenContractContainer.TokenContractStub>(TokenContractAddress, DefaultKeyPair);
-            BlockTimeProvider = Application.ServiceProvider.GetService<IBlockTimeProvider>();
+            AsyncHelper.RunSync(InitializeContracts);
         }
 
-        private SimpleDAOContainer.SimpleDAOStub GetSimpleDAOContractStub(ECKeyPair senderKeyPair)
+        private async Task InitializeContracts()
+        {
+            // Deploy SimpleDAO contract
+            ContractAddress = await DeployContractAsync(
+                KernelConstants.DefaultRunnerCategory,
+                File.ReadAllBytes(typeof(SimpleDAO).Assembly.Location),
+                HashHelper.ComputeFrom("SimpleDAO"),
+                DefaultKeyPair
+            );
+            
+            // Initialize contract stub
+            SimpleDAOStub = GetSimpleDAOContractStub(DefaultKeyPair);
+        }
+
+        internal SimpleDAOContainer.SimpleDAOStub GetSimpleDAOContractStub(ECKeyPair senderKeyPair)
         {
             return GetTester<SimpleDAOContainer.SimpleDAOStub>(ContractAddress, senderKeyPair);
         }
     }
-    
 }

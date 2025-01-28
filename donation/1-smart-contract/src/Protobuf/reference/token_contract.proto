@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package token;
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "AElf.Contracts.MultiToken";
+
+service TokenContract {
+    // Create a new token.
+    rpc Create (CreateInput) returns (google.protobuf.Empty) { }
+    
+    // Transfer tokens between accounts
+    rpc Transfer (TransferInput) returns (google.protobuf.Empty) { }
+    
+    // Transfer tokens using allowance
+    rpc TransferFrom (TransferFromInput) returns (google.protobuf.Empty) { }
+    
+    // Approve token spending
+    rpc Approve (ApproveInput) returns (google.protobuf.Empty) { }
+    
+    // Query balance
+    rpc GetBalance (GetBalanceInput) returns (GetBalanceOutput) {
+        option (aelf.is_view) = true;
+    }
+    
+    // Query allowance
+    rpc GetAllowance (GetAllowanceInput) returns (GetAllowanceOutput) {
+        option (aelf.is_view) = true;
+    }
+}
+
+message CreateInput {
+    string symbol = 1;
+    string token_name = 2;
+    int64 total_supply = 3;
+    int32 decimals = 4;
+    aelf.Address issuer = 5;
+    bool is_burnable = 6;
+}
+
+message TransferInput {
+    aelf.Address to = 1;
+    string symbol = 2;
+    int64 amount = 3;
+    string memo = 4;
+}
+
+message TransferFromInput {
+    aelf.Address from = 1;
+    aelf.Address to = 2;
+    string symbol = 3;
+    int64 amount = 4;
+    string memo = 5;
+}
+
+message ApproveInput {
+    aelf.Address spender = 1;
+    string symbol = 2;
+    int64 amount = 3;
+}
+
+message GetBalanceInput {
+    string symbol = 1;
+    aelf.Address owner = 2;
+}
+
+message GetBalanceOutput {
+    string symbol = 1;
+    aelf.Address owner = 2;
+    int64 balance = 3;
+}
+
+message GetAllowanceInput {
+    string symbol = 1;
+    aelf.Address owner = 2;
+    aelf.Address spender = 3;
+}
+
+message GetAllowanceOutput {
+    string symbol = 1;
+    aelf.Address owner = 2;
+    aelf.Address spender = 3;
+    int64 allowance = 4;
+}

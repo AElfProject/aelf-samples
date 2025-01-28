@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>AElf.Contracts.DonationApp</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>0436;CS2002</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ObjPath>$(MSBuildProjectDirectory)/$(BaseIntermediateOutputPath)$(Configuration)/$(TargetFramework)/</ObjPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AElf.TestBase" Version="1.12.0" />
+    <PackageReference Include="AElf.ContractTestBase" Version="1.12.0" />
+    <PackageReference Include="AElf.EconomicSystem" Version="1.12.0" />
+    <PackageReference Include="AElf.GovernmentSystem" Version="1.12.0" />
+    <PackageReference Include="AElf.Kernel.Token" Version="1.12.0" />
+    <PackageReference Include="AElf.Types" Version="1.12.0" />
+    <PackageReference Include="coverlet.msbuild" Version="6.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Shouldly" Version="4.2.1" />
+    <PackageReference Include="xunit" Version="2.6.6" />
+    <PackageReference Include="xunit.runner.console" Version="2.6.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="AElf.ContractTestKit" Version="1.12.0" />
+    <PackageReference Include="Volo.Abp.Core" Version="8.2.2" />
+    <PackageReference Include="AElf.Tools" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ContractBase Include="Protobuf/reference/*.proto" />
+    <ContractStub Include="Protobuf/stub/*.proto" />
+    <ContractMessage Include="Protobuf/message/*.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../src/Donation.csproj" />
+  </ItemGroup>
+
+</Project> 

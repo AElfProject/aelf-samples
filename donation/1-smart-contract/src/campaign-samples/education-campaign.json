@@ -1,0 +1,8 @@
+{
+    "title": "Education Support Campaign",
+    "description": "Help support education for underprivileged children",
+    "imageUrl": "https://example.com/education.jpg",
+    "type": "education",
+    "goalAmount": 5000000000,
+    "duration": 2592000
+} 

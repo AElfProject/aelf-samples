@@ -1,0 +1,8 @@
+{
+    "title": "Medical Aid Campaign",
+    "description": "Emergency medical support for those in need",
+    "imageUrl": "https://example.com/medical.jpg",
+    "type": "medical",
+    "goalAmount": 10000000000,
+    "duration": 1296000
+} 
