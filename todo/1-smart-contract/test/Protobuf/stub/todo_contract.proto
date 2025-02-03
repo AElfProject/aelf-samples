@@ -1,0 +1,58 @@
+syntax = "proto3";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "Protobuf/reference/acs12.proto";
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.ToDo";
+service ToDo {
+  // The name of the state class the smart contract is going to use to access blockchain state
+  option (aelf.csharp_state) = "AElf.Contracts.ToDo.ToDoState";
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+  rpc Initialize (google.protobuf.Empty) returns (google.protobuf.Empty) {
+  }
+  rpc CreateTask (TaskInput) returns (google.protobuf.StringValue) {
+  }
+  rpc UpdateTask (TaskUpdateInput) returns (google.protobuf.Empty) {
+  }
+  rpc DeleteTask (google.protobuf.StringValue) returns (google.protobuf.Empty) {
+  }
+  rpc ListTasks (google.protobuf.StringValue) returns (TaskList) {
+    option (aelf.is_view) = true;
+  }
+  rpc GetTask (google.protobuf.StringValue) returns (Task) {
+    option (aelf.is_view) = true;
+  }
+  rpc GetInitialStatus (google.protobuf.Empty) returns (google.protobuf.BoolValue) {
+    option (aelf.is_view) = true;
+  }
+}
+// A message to represent a task
+message Task {
+  string task_id = 1;
+  string name = 2;
+  string description = 3;
+  string category = 4;
+  string status = 5;
+  string owner = 6;
+  int64 created_at = 7;
+  int64 updated_at = 8;
+}
+// Input for creating a task
+message TaskInput {
+  string name = 1;
+  string description = 2;
+  string category = 3;
+}
+// Input for updating a task
+message TaskUpdateInput {
+  string task_id = 1;
+  string name = 2;
+  string description = 3;
+  string category = 4;
+  string status = 5;
+}
+// List of tasks
+message TaskList {
+  repeated Task tasks = 1;
+}

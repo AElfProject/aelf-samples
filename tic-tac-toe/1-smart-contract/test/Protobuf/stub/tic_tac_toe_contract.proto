@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "Protobuf/reference/acs12.proto";
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.TicTacToe";
+
+service TicTacToe {
+  // The name of the state class the smart contract is going to use to access blockchain state
+  option (aelf.csharp_state) = "AElf.Contracts.TicTacToe.TicTacToeState";
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+
+  rpc Initialize (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+  
+  rpc StartGame (google.protobuf.Empty) returns (google.protobuf.StringValue) {}
+  
+  rpc MakeMove (MoveInput) returns (google.protobuf.StringValue) {}
+  
+  rpc GetBoard (google.protobuf.Empty) returns (Board) {
+    option (aelf.is_view) = true;
+  }
+  
+  rpc GetGameStatus (google.protobuf.Empty) returns (GameStatus) {
+    option (aelf.is_view) = true;
+  }
+  rpc GetInitialStatus(google.protobuf.Empty) returns(google.protobuf.BoolValue){
+    option (aelf.is_view) = true;
+  }
+}
+
+// Input for making a move
+message MoveInput {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+// A message to represent the game board
+message Board {
+  repeated string rows = 1;
+}
+
+// A message to represent the game status
+message GameStatus {
+  string status = 1;
+  string winner = 2;
+}

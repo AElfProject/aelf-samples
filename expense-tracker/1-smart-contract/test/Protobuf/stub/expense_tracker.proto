@@ -1,0 +1,58 @@
+syntax = "proto3";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "Protobuf/reference/acs12.proto";
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.ExpenseTracker";
+service ExpenseTracker {
+  option (aelf.csharp_state) = "AElf.Contracts.ExpenseTracker.ExpenseTrackerState";
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+  rpc Initialize (google.protobuf.Empty) returns (google.protobuf.Empty) {
+  }
+  rpc AddExpense (ExpenseInput) returns (google.protobuf.StringValue) {
+  }
+  rpc UpdateExpense (ExpenseUpdateInput) returns (google.protobuf.Empty) {
+  }
+  rpc DeleteExpense (google.protobuf.StringValue) returns (google.protobuf.Empty) {
+  }
+  rpc ListExpenses (google.protobuf.StringValue) returns (ExpenseList) {
+    option (aelf.is_view) = true;
+  }
+  rpc GetExpense (google.protobuf.StringValue) returns (Expense) {
+    option (aelf.is_view) = true;
+  }
+  rpc GetInitialStatus (google.protobuf.Empty) returns (google.protobuf.BoolValue) {
+    option (aelf.is_view) = true;
+  }
+}
+
+message Expense {
+  string expense_id = 1;
+  string description = 2;
+  string category = 3;
+  int64 amount = 4; // Store as cents
+  string currency = 5;
+  string owner = 6;
+  int64 created_at = 7;
+  int64 updated_at = 8;
+}
+
+message ExpenseInput {
+  string description = 1;
+  string category = 2;
+  int64 amount = 3; // Store as cents
+  string currency = 4;
+}
+
+message ExpenseUpdateInput {
+  string expense_id = 1;
+  string description = 2;
+  string category = 3;
+  int64 amount = 4; // Store as cents
+  string currency = 5;
+}
+
+message ExpenseList {
+  repeated Expense expenses = 1;
+}

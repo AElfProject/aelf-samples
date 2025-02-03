@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "Protobuf/reference/acs12.proto";
+import "google/protobuf/wrappers.proto";
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.SinglePoolStaking";
+
+service SinglePoolStaking {
+  // The name of the state class the smart contract is going to use to access blockchain state
+  option (aelf.csharp_state) = "AElf.Contracts.SinglePoolStaking.SinglePoolStakingState";
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+  
+ rpc Initialize (InitializeInput) returns (google.protobuf.Empty);
+    rpc Deposit (DepositInput) returns (google.protobuf.StringValue); 
+    rpc Withdraw (WithdrawInput) returns (google.protobuf.Empty);
+    rpc ForceWithdraw (google.protobuf.StringValue) returns (google.protobuf.Empty);
+    
+    rpc GetReward (google.protobuf.StringValue) returns (google.protobuf.Int64Value) {
+      option (aelf.is_view) = true;
+    }
+    rpc GetDeposits (google.protobuf.StringValue) returns (DepositList) {
+      option (aelf.is_view) = true;
+    }
+    
+    // New functions
+    rpc IfInitialized (google.protobuf.Empty) returns (google.protobuf.BoolValue) {
+      option (aelf.is_view) = true;
+    }
+    rpc GetTotalStakedAmount (google.protobuf.Empty) returns (google.protobuf.Int64Value) {
+      option (aelf.is_view) = true;
+    }
+}
+
+message DepositInput {
+    string token_symbol = 1;
+    int64 amount = 2;
+    int64 lock_time = 3;
+}
+
+message InitializeInput {
+    aelf.Address token_contract_address = 1;
+}
+
+message WithdrawInput {
+    string deposit_id = 1;
+}
+
+
+message StringList {
+    repeated string values = 1;
+}
+
+message Deposit {
+    string deposit_id = 1;
+    aelf.Address to = 2; // Store the Address directly
+    string token_symbol = 3;
+    int64 amount = 4;
+    int64 lock_time = 5;
+    int64 deposit_time = 6;
+}
+
+message DepositList {
+    repeated Deposit deposits = 1;
+}

@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "Protobuf/reference/acs12.proto";
+
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.BuildersDAO";
+
+service BuildersDAO {
+  // The name of the state class the smart contract is going to use to access
+  // blockchain state
+  option (aelf.csharp_state) = "AElf.Contracts.BuildersDAO.BuildersDAOState";
+  option (aelf.base) = "Protobuf/reference/acs12.proto";
+
+  // Actions -> Methods that change state of smart contract
+  // This method sets up the initial state of our StackUpDAO smart contract
+  rpc Initialize(google.protobuf.Empty) returns (google.protobuf.Empty);
+
+  // This method allows a user to become a member of the DAO by taking in their
+  // address as an input parameter
+  rpc JoinDAO(aelf.Address) returns (google.protobuf.Empty);
+
+  // This method allows a user to create a proposal for other users to vote on.
+  // The method takes in a "CreateProposalInput" message which comprises of an
+  // address, a title, description and a vote threshold (i.e how many votes
+  // required for the proposal to pass)
+  rpc CreateProposal(CreateProposalInput) returns (Proposal);
+
+  // This method allows a user to vote on proposals towards a specific proposal.
+  // This method takes in a "VoteInput" message which takes in the address of
+  // the voter, specific proposal and a boolean which represents their vote
+  rpc VoteOnProposal(VoteInput) returns (Proposal);
+
+  // Views -> Methods that does not change state of smart contract
+  // This method allows a user to fetch a list of proposals that had been
+  // created by members of the DAO
+  rpc GetAllProposals(google.protobuf.Empty) returns (ProposalList) {
+    option (aelf.is_view) = true;
+  }
+
+  // aelf requires explicit getter methods to access the state value,
+  // so we provide these three getter methods for accessing the state
+  // This method allows a user to fetch a proposal by proposalId
+  rpc GetProposal (google.protobuf.StringValue) returns (Proposal) {
+    option (aelf.is_view) = true;
+  }
+
+  // This method allows a user to fetch the member count that joined DAO
+  rpc GetMemberCount (google.protobuf.Empty) returns (google.protobuf.Int32Value) {
+    option (aelf.is_view) = true;
+  }
+
+  // This method allows a user to check whether this member is exist by address
+  rpc GetMemberExist (aelf.Address) returns (google.protobuf.BoolValue) {
+    option (aelf.is_view) = true;
+  }
+}
+
+// Message definitions
+message Member {
+  aelf.Address address = 1;
+}
+
+message Proposal {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  repeated aelf.Address yesVotes = 4;
+  repeated aelf.Address noVotes = 5;
+  string status = 6;  // e.g., "IN PROGRESS", "PASSED", "DENIED"
+  int32 voteThreshold = 7;
+}
+
+message CreateProposalInput {
+  aelf.Address creator = 1;
+  string title = 2;
+  string description = 3;
+  int32 voteThreshold = 4;
+}
+
+message VoteInput {
+  aelf.Address voter = 1;
+  string proposalId = 2;
+  bool vote = 3;  // true for yes, false for no
+}
+
+message MemberList {
+  repeated Member members = 1;
+}
+
+message ProposalList {
+  repeated Proposal proposals = 1;
+}
