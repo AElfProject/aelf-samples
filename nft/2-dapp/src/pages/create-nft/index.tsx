@@ -5,7 +5,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 // @ts-ignore
 import AElf from "aelf-sdk";
 import { Buffer } from "buffer";
-import { toast } from "react-toastify";
+import { Id, toast } from "react-toastify";
 
 import { IPortkeyProvider } from "@portkey/provider-types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,8 +23,14 @@ import { Button } from "@/components/ui/button";
 import useNFTSmartContract from "@/hooks/useNFTSmartContract";
 import "./create-nft.scss";
 
-import { CustomToast, delay, removeNotification } from "@/lib/utils";
+import {
+  CustomToast,
+  delay,
+  handleError,
+  removeNotification,
+} from "@/lib/utils";
 import { InfoIcon } from "@/components/ui/icons";
+import { IWalletInfo } from "aelf-sdk/types/wallet";
 
 const formSchema = z.object({
   tokenName: z.string(),
@@ -53,7 +59,7 @@ interface INftParams {
 interface INftValidateResult {
   parentChainHeight: string | number;
   signedTx: string;
-  merklePath: { merklePathNodes: any };
+  merklePath: { merklePathNodes: { hash: string; isLeftChildNode: boolean }[] };
 }
 
 const wallet = AElf.wallet.getWalletByPrivateKey(
@@ -66,7 +72,8 @@ const CreateNftPage = ({
   currentWalletAddress: string;
 }) => {
   const [provider, setProvider] = useState<IPortkeyProvider | null>(null);
-  const { mainChainSmartContract, sideChainSmartContract } = useNFTSmartContract(provider);
+  const { mainChainSmartContract, sideChainSmartContract } =
+    useNFTSmartContract(provider);
   const [transactionStatus, setTransactionStatus] = useState<boolean>(false);
   const [isNftCollectionCreated, setIsNftCollectionCreated] =
     useState<boolean>(false);
@@ -113,7 +120,7 @@ const CreateNftPage = ({
   const form = useForm<z.infer<typeof formSchema>>();
 
   // Get Token Contract
-  const getTokenContract = async (aelf: any, wallet: any) => {
+  const getTokenContract = async (aelf: AElf, wallet: IWalletInfo) => {
     const tokenContractName = "AElf.ContractNames.Token";
     // get chain status
     const chainStatus = await aelf.chain.getChainStatus();
@@ -134,9 +141,9 @@ const CreateNftPage = ({
   };
 
   // Get CrossChain Contract
-  const getCrossChainContract = async (aelf:any, wallet: any) => {
+  const getCrossChainContract = async (aelf: AElf, wallet: IWalletInfo) => {
     const crossChainContractName = "AElf.ContractNames.CrossChain";
-  
+
     // get chain status
     const chainStatus = await aelf.chain.getChainStatus();
     // get genesis contract address
@@ -151,7 +158,7 @@ const CreateNftPage = ({
       await zeroContract.GetContractAddressByName.call(
         AElf.utils.sha256(crossChainContractName)
       );
-  
+
     return await aelf.chain.contractAt(crossChainContractAddress, wallet);
   };
 
@@ -166,27 +173,24 @@ const CreateNftPage = ({
   // Step 3: Get the parent chain height
   const GetParentChainHeight = async () => {};
 
-  // step 4 - Fetch the Merkle path by Transaction Id
-  const getMerklePathByTxId = async (aelf: any, txId: string) => {};
+  // step 4 - Fetch the merkle path by transaction Id
+  const getMerklePathByTxId = async () => {};
 
-  // step 5 - Create a Collection on SideChain
+  // step 5 - Create a collection on the dAppChain
   const createCollectionOnSideChain = async () => {};
-
 
   //============== Create NFT Token Steps =================//
 
-  // step 6 - Create a Collection on SideChain
+  // step 6 - Create an NFT on the mainchain
   const createNFTOnMainChain = async () => {};
 
   // step 7 - Validate a NFT Token on MainChain
-  const validateNftToken = async () => {
-  };
+  const validateNftToken = async () => {};
 
-  // step 8 - Create a NFT on SideChain.
-  const createNftTokenOnSideChain = async () => {
-  };
+  // step 8 - Create a NFT on dAppChain.
+  const createNftTokenOnSideChain = async () => {};
 
-  // step 9 - Issue a NFT Function which has been Created on SideChain
+  // step 9 - Issue a NFT Function which has been Created on dAppChain
   const issueNftOnSideChain = async () => {};
 
   // step 10 - Call Necessary Function for Create NFT
@@ -195,8 +199,7 @@ const CreateNftPage = ({
   //============== Handle Submit Form =================//
 
   // Step 11 - Handle Submit Form
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  };
+  const onSubmit = async () => {};
 
   return (
     <div className="form-wrapper">
@@ -229,7 +232,9 @@ const CreateNftPage = ({
                   name="symbol"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="symbol-label">Symbol <InfoIcon className="info-icon"/></FormLabel>
+                      <FormLabel className="symbol-label">
+                        Symbol <InfoIcon className="info-icon" />
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Enter Symbol" {...field} />
                       </FormControl>
