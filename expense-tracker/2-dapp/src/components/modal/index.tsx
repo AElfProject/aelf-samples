@@ -1,6 +1,13 @@
+import { ReactNode, MouseEventHandler } from "react";
 import style from "./modal.module.scss";
 
-const PopupOverlay = ({ children, isVisible, type }:any) => (
+interface PopupOverlayProps {
+  children: ReactNode;
+  isVisible: boolean;
+  type?: string; // Adjust the type as per your requirements if type has specific values (e.g., a union of strings)
+}
+
+const PopupOverlay = ({ children, isVisible, type }: PopupOverlayProps) => (
   <div
     className={`${style["modal-overlay"]} ${
       isVisible ? style["in-view"] : ""
@@ -9,24 +16,52 @@ const PopupOverlay = ({ children, isVisible, type }:any) => (
     {children}
   </div>
 );
-const PopupInner = ({ children }:any) => (
+
+interface PopupInnerProps {
+  children: ReactNode;
+}
+
+const PopupInner = ({ children }: PopupInnerProps) => (
   <div className={style.modalInner}>{children}</div>
 );
-const PopupBody = ({ children }:any) => (
+
+interface PopupBodyProps {
+  children: ReactNode;
+}
+
+const PopupBody = ({ children }: PopupBodyProps) => (
   <div className={style.modalBody}>{children}</div>
 );
-const PopupClose = (props:any) => (
-  <div className={style["x-mark-wrapper"]} {...props}>
+
+interface PopupCloseProps {
+  onClick?: MouseEventHandler<HTMLDivElement>;
+}
+
+const PopupClose = ({ onClick }: PopupCloseProps) => (
+  <div className={style["x-mark-wrapper"]} onClick={onClick}>
     <span className={style["x-mark"]}></span>
     <span className={style["x-mark"]}></span>
     <span className={style["mask"]}></span>
   </div>
 );
-const PopupTitle = ({ children }:any) => (
+
+interface PopupTitleProps {
+  children: ReactNode;
+}
+
+const PopupTitle = ({ children }: PopupTitleProps) => (
   <h2 className={style.title}>{children}</h2>
 );
-function Modal(props:any) {
-  const { isVisible, title, onClose, children, type } = props;
+
+interface ModalProps {
+  isVisible: boolean;
+  title: ReactNode;
+  onClose: MouseEventHandler<HTMLDivElement>;
+  children: ReactNode;
+  type?: string; // Adjust the type as per your requirements
+}
+
+function Modal({ isVisible, title, onClose, children, type }: ModalProps) {
   return (
     <PopupOverlay isVisible={isVisible} type={type}>
       <PopupInner>
